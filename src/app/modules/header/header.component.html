@@ -1,0 +1,32 @@
+<mat-toolbar color="primary">
+  <span>
+    <div class="img-container">
+      <a href="#" [routerLink]="['requests']" [routerLinkActive]="['active']">
+        <img alt="Microsoft Logo" #logo src="../../../../../assets/images/microsoft.png" aria-hidden="true" style="height: 46px;">
+        <div class="img-centered">{{ connectionCount | async }}</div>
+      </a>
+    </div>
+  </span>
+  <span>
+    <button mat-raised-button  [routerLink]="['requests']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Requests</button>
+  </span>
+  <span>
+      <button mat-raised-button><i class="fas fa-plus"></i> Add Rquest</button>
+  </span>
+  <!-- This fills the remaining space of the current row -->
+  <span class="fill-remaining-space">
+    <ng-template #notificationAlert [ngIf]="this.notification">
+      <div class="alert alert-success fadein">
+        <strong>{{ notification.Title }}</strong> {{ notification.Content }}
+      </div>
+    </ng-template>
+  </span>
+  <span>
+    <form>
+      <mat-form-field>
+        <input matInput type="search" (keyup)="loadRequests($event)" placeholder="Search Request" aria-label="Search">
+      </mat-form-field>
+      <button mat-flat-button type="search">Search</button>
+    </form>
+</span>
+</mat-toolbar>

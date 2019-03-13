@@ -1,0 +1,25 @@
+{
+    "extends": "../tslint.json",
+    "rules": {
+        "directive-selector": [
+            true,
+            "attribute",
+            "boi",
+            "camelCase"
+        ],
+        "component-selector": [
+            true,
+            "element",
+            "boi",
+            "kebab-case"
+        ],
+        "max-line-length": [
+          true,
+          255
+        ],
+        "curly": [
+          true,
+          "as-needed"
+        ]
+    }
+}

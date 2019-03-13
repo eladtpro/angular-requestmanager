@@ -1,0 +1,13 @@
+{
+  "webApiBaseUrl": "http://localhost:27527/api/",
+  "signalrBaseUrl": "http://localhost:8080/requestmanager/api/",
+  "firebaseUrl": "https://requesthub-748cc.firebaseio.com/data.json",
+  "firebaseConfig": {
+    "apiKey": "AIzaSyC6oG1B9XjXlQpBdRphfewPU7QP2PTxasg",
+    "authDomain": "requesthub-748cc.firebaseapp.com",
+    "databaseURL": "https://requesthub-748cc.firebaseio.com",
+    "projectId": "requesthub-748cc",
+    "storageBucket": "requesthub-748cc.appspot.com",
+    "messagingSenderId": "772813675652"
+  }
+}

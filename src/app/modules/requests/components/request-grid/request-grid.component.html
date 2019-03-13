@@ -1,0 +1,7 @@
+
+<mat-grid-list cols="2" rowHeight="5:1" *ngFor="let request of this.requests | async">
+  <mat-grid-tile>{{ request.Id }}</mat-grid-tile>
+  <mat-grid-tile>{{ request.Request.User }}</mat-grid-tile>
+  <mat-grid-tile>{{ request.Request.Package.Name }}</mat-grid-tile>
+  <mat-grid-tile>{{ request.Request.StatusChangedOn }}</mat-grid-tile>
+</mat-grid-list>
