@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   connectionCount: Observable<string>;
   private subs = new SubSink();
 
-  @ViewChild(ElementRef, {static: false}) logo: ElementRef;
+  @ViewChild(ElementRef, {static: true}) logo: ElementRef;
   // @ViewChild('notificationAlert') notificationAlert: TemplateRef<Notification>;
   private notifier: Subject<Notification>;
 

@@ -1,4 +1,3 @@
-import { CacheService } from './../services/cache.service';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { ConfigurationService } from '../services/configuration.service';
@@ -25,13 +24,7 @@ export function ConfigurationLoader(configService: ConfigurationService) {
       useFactory: ConfigurationLoader,
       deps: [ConfigurationService],
       multi: true
-    },
-    // CacheService,
-    // {
-    //   provide: RequestService,
-    //   useFactory:
-
-    // }
+    }
   ]
 })
 export class CoreModule { }
