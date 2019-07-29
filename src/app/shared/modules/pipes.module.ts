@@ -23,6 +23,6 @@ import { MatchPipe } from '../pipes/match.pipe';
     MatchPipe
   ]
 })
-export class SharedModule {
+export class PipesModule {
 
 }

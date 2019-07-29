@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { CacheService } from '../../../../shared/services/cache.service';
 import { RequestService } from '../../services/request.service';
-import { RequestInfo } from '../../model/request-info';
-import { NotificationService } from 'src/app/shared/services/notification.service';
+import { Request } from '../../model/request';
 
 @Component({
   selector: 'boi-request-grid',
@@ -12,14 +9,24 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
   styleUrls: ['./request-grid.component.css']
 })
 export class RequestGridComponent implements OnInit {
-  requests: Observable<RequestInfo[]>;
-  private cache: CacheService<RequestInfo, RequestService>;
+  requests$: Observable<Request[]>;
+  loading$: Observable<boolean>;
+  selected: Request;
 
-  constructor(cache: CacheService<RequestInfo, RequestService>,
-    private notification: NotificationService) { }
-
-  ngOnInit() {
-    this.requests = this.cache.list();
+  constructor(private requestService: RequestService) {
+    this.requests$ = requestService.entities$;
   }
 
+  ngOnInit() {
+    this.getRequests();
+  }
+
+  getRequests() {
+    this.requestService.getAll();
+    this.close();
+  }
+
+  close() {
+    this.selected = null;
+  }
 }

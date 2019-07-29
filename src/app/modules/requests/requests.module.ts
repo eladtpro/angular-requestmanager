@@ -1,5 +1,3 @@
-import { FirebaseService } from './services/firebase.service';
-import { WebapibaseService } from 'src/app/modules/requests/services/webapibase.service';
 import { environment } from './../../../environments/environment.prod';
 import { NgModule, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -32,16 +30,16 @@ export const config = {
     RequestsRoutingModule
   ],
   providers: [
-    {
-      provide: RequestService,
-      useFactory: () => {
-        // WebapibaseService/FirebaseService
-        return environment.production ?
-          InjectorInstance.get<FirebaseService>(FirebaseService) :
-          InjectorInstance.get<WebapibaseService>(WebapibaseService);
-      },
-      deps: [WebapibaseService, FirebaseService]
-    }
+    // {
+    //   provide: RequestService,
+    //   useFactory: () => {
+    //     // WebapibaseService/FirebaseService
+    //     return environment.production ?
+    //       InjectorInstance.get<FirebaseService>(FirebaseService) :
+    //       InjectorInstance.get<WebapibaseService>(WebapibaseService);
+    //   },
+    //   deps: [WebapibaseService, FirebaseService]
+    // }
   ]
 })
 export class RequestsModule {

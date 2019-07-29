@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './modules/header/header.component';
 import { MaterialModule } from './shared/modules/material.module';
-import { SharedModule } from './shared/modules/shared.module';
+import { PipesModule } from './shared/modules/pipes.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Interceptor } from './shared/core/interceptor';
 import { HomeComponent } from './modules/home/home.component';
@@ -23,7 +23,7 @@ import { HomeComponent } from './modules/home/home.component';
     AppRoutingModule,
     MaterialModule,
     CoreModule,
-    SharedModule
+    PipesModule
   ],
   providers: [
     AppPreloader,

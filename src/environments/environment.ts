@@ -1,4 +1,4 @@
-import { IDataService } from 'src/app/shared/services/idata.service';
+import { DataService } from 'src/app/shared/services/data.service';
 import { WebapibaseService } from 'src/app/modules/requests/services/webapibase.service';
 
 // The file contents for the current environment will overwrite these during build.

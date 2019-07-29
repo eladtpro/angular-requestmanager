@@ -1,16 +1,11 @@
 import { Component, ViewChild, Renderer2, ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { share, tap, map } from 'rxjs/operators';
+import { share, tap, map, takeUntil } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
+import { SubSink } from 'subsink';
 
 import { Interceptor } from '../../shared/core/interceptor';
-// import { ModalService } from './../../services/modal.service';
-// import { NotificationService } from './../../services/notification.service';
-// import { Component, OnInit, OnDestroy, ViewChild, Renderer2, ElementRef } from '@angular/core';
-// import { RequestService } from '../../services/request.service';
-// import { ActionInfo } from '../../models/action-info';
-// import { Action } from '../../models/action';
- import { Notification } from '../../shared/model/notification';
-// import { DummyService } from './../../services/dummy.service';
+import { NotificationService } from '../../shared/services/notification.service';
+import { Notification } from '../../shared/model/notification';
 
 @Component({
   selector: 'boi-header',
@@ -18,8 +13,10 @@ import { Interceptor } from '../../shared/core/interceptor';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  @ViewChild('connectionCount') public connectionCount: Observable<string>;
-  @ViewChild('logo') public logo: ElementRef;
+  connectionCount: Observable<string>;
+  private subs = new SubSink();
+
+  @ViewChild(ElementRef, {static: false}) logo: ElementRef;
   // @ViewChild('notificationAlert') notificationAlert: TemplateRef<Notification>;
   private notifier: Subject<Notification>;
 
@@ -29,7 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     public interceptor: Interceptor,
     private renderer: Renderer2,
-    // private notificationService: NotificationService
+    private notificationService: NotificationService
     ) { }
 
 
@@ -45,24 +42,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
       map(activeConnections => activeConnections > 0 ? activeConnections.toString() : ''),
       share());
 
-    // this.notificationService.start();
-    // this.notifier = this.notificationService.notifier;//this.notificationService.start();
-    // this.notifier
-    //   .pipe(takeUntil(this.notifier))
-    //   .subscribe(notification => {
-    //     this.notification = notification;
-    // });
+    this.notificationService.start();
+    this.notifier = this.notificationService.notifier;
+    this.notifier
+      .pipe(takeUntil(this.notifier))
+      .subscribe(notification => {
+        this.notification = notification;
+    });
   }
 
   ngOnDestroy() {
-    console.log('HeaderComponent: OnDestroy');
-
+    this.subs.unsubscribe();
     this.notifier.complete();
   }
 
-  loadRequests(event) {
-    // this.requestService.searchPattern.next(event.target.value);
-  }
+  // loadRequests(event) {
+  //   this.requestService.searchPattern.next(event.target.value);
+  // }
 
   // reloadData(){
   //   this.requestService.reInitialize(this.dummy.Requests()).subscribe(

@@ -1,7 +1,16 @@
+<div class="control-panel">
+  <div class="button-panel">
+    <button mat-raised-button color="primary" type="button" (click)="getRequests()" matTooltip="Refresh the heroes">Refresh</button>
+    <button mat-raised-button color="primary" type="button" (click)="enableAddMode()" *ngIf="!selected" matTooltip="Add a new hero">Add</button>
+  </div>
+</div>
 
-<mat-grid-list cols="2" rowHeight="5:1" *ngFor="let request of this.requests | async">
+
+<mat-spinner *ngIf="loading$ | async;else heroList" mode="indeterminate" color="accent"></mat-spinner>
+
+<mat-grid-list cols="2" rowHeight="5:1" *ngFor="let request of this.requests$ | async">
   <mat-grid-tile>{{ request.Id }}</mat-grid-tile>
-  <mat-grid-tile>{{ request.Request.User }}</mat-grid-tile>
-  <mat-grid-tile>{{ request.Request.Package.Name }}</mat-grid-tile>
-  <mat-grid-tile>{{ request.Request.StatusChangedOn }}</mat-grid-tile>
+  <mat-grid-tile>{{ request.User }}</mat-grid-tile>
+  <mat-grid-tile>{{ request.Package.Name }}</mat-grid-tile>
+  <mat-grid-tile>{{ request.StatusChangedOn }}</mat-grid-tile>
 </mat-grid-list>
