@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { RequestGridComponent } from './components/request-grid/request-grid.component';
 // import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { MaterialModule } from 'src/app/shared/modules/material.module';
+// import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { CoreModule } from '../../shared/modules/core.module';
+import { MaterialModule } from '../../shared/modules/material.module';
 import { RequestsRoutingModule } from './requests-routing.module';
 
 export const config = {
@@ -21,11 +23,16 @@ export const config = {
   ],
   imports: [
     CommonModule,
+    CoreModule,
     MaterialModule,
     // AngularFireModule.initializeApp(config),
-    AngularFireDatabaseModule,
+    // AngularFireDatabaseModule,
     RequestsRoutingModule
   ],
   providers: []
 })
-export class RequestsModule { }
+export class RequestsModule {
+  constructor() {
+    console.log('LOADING MODULE: RequestsModule');
+  }
+}

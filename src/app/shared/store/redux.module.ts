@@ -16,4 +16,8 @@ import { environment } from '../../../environments/environment';
     ]
 })
 
-export class ReduxModule {}
+export class ReduxModule {
+  constructor() {
+    console.log('LOADING MODULE: ReduxModule');
+  }
+}

@@ -1,7 +1,6 @@
 import { HomeComponent } from './modules/home/home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AppPreloader } from './app-preloader';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,8 +14,12 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: AppPreloader })
+    RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+  constructor() {
+    console.log('LOADING MODULE: AppRoutingModule');
+  }
+}

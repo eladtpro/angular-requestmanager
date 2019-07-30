@@ -1,9 +1,8 @@
-import { CoreModule } from './shared/modules/core.module';
-import { AppPreloader } from './app-preloader';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
+import { CoreModule } from './shared/modules/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './modules/header/header.component';
@@ -28,7 +27,6 @@ import { HomeComponent } from './modules/home/home.component';
     PipesModule
   ],
   providers: [
-    AppPreloader,
     Interceptor,
     {
       provide: HTTP_INTERCEPTORS,
@@ -38,4 +36,8 @@ import { HomeComponent } from './modules/home/home.component';
   ],
    bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    console.log('LOADING MODULE: AppModule');
+  }
+}

@@ -1,4 +1,3 @@
-// import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { GroupByPipe } from '../pipes/group-by.pipe';
@@ -14,7 +13,6 @@ import { MatchPipe } from '../pipes/match.pipe';
     MatchPipe,
   ],
   imports: [
-    // CommonModule
   ],
   exports: [
     KeysPipe,
@@ -24,5 +22,7 @@ import { MatchPipe } from '../pipes/match.pipe';
   ]
 })
 export class PipesModule {
-
+  constructor() {
+    console.log('LOADING MODULE: PipesModule');
+  }
 }

@@ -1,9 +1,9 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
+
+import { environment } from 'src/environments/environment';
 import { ConfigurationService } from '../services/configuration.service';
 import { NotificationService } from '../services/notification.service';
-import { environment } from 'src/environments/environment';
-import { HttpClientModule } from '@angular/common/http';
 
 export function ConfigurationLoader(configService: ConfigurationService) {
   // Note: this factory need to return a function (that return a promise)
@@ -13,11 +13,9 @@ export function ConfigurationLoader(configService: ConfigurationService) {
 @NgModule({
   declarations: [],
   imports: [
-    StoreModule,
-    HttpClientModule
+    StoreModule
   ],
   providers: [
-    ConfigurationService,
     NotificationService,
     {
       provide: APP_INITIALIZER,
@@ -27,4 +25,9 @@ export function ConfigurationLoader(configService: ConfigurationService) {
     }
   ]
 })
-export class CoreModule { }
+export class CoreModule {
+  constructor() {
+    console.log('LOADING MODULE: CoreModule');
+  }
+
+ }

@@ -1,7 +1,25 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import {
+  MatButtonModule,
+  MatMenuModule,
+  MatIconModule,
+  MatCardModule,
+  MatSidenavModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatTooltipModule,
+  MatToolbarModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatGridListModule
+} from '@angular/material';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CoreModule } from './core.module';
+
+@NgModule({
+  imports: [
     MatButtonModule,
     MatMenuModule,
     MatIconModule,
@@ -13,44 +31,29 @@ import {
     MatToolbarModule,
     MatCheckboxModule,
     MatDialogModule,
-    MatGridListModule
-} from '@angular/material';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-@NgModule({
-    imports: [
-        CommonModule,
-        MatButtonModule,
-        MatMenuModule,
-        MatIconModule,
-        MatCardModule,
-        MatSidenavModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTooltipModule,
-        MatToolbarModule,
-        MatCheckboxModule,
-        MatDialogModule,
-        MatGridListModule,
-        MatProgressSpinnerModule,
-        BrowserAnimationsModule
-    ],
-    exports: [
-        MatButtonModule,
-        MatMenuModule,
-        MatIconModule,
-        MatCardModule,
-        MatSidenavModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTooltipModule,
-        MatToolbarModule,
-        MatCheckboxModule,
-        MatDialogModule,
-        MatGridListModule,
-        MatProgressSpinnerModule,
-        BrowserAnimationsModule
-    ]
+    MatGridListModule,
+    MatProgressSpinnerModule,
+    BrowserAnimationsModule,
+    CoreModule
+  ],
+  exports: [
+    MatButtonModule,
+    MatMenuModule,
+    MatIconModule,
+    MatCardModule,
+    MatSidenavModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatToolbarModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatGridListModule,
+    MatProgressSpinnerModule
+  ]
 })
-export class MaterialModule { }
+export class MaterialModule {
+  constructor() {
+    console.log('LOADING MODULE: MaterialModule');
+  }
+}

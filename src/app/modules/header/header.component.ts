@@ -60,6 +60,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
+  notify(msg: string, title?: string) {
+    const not = new Notification();
+    not.Content = msg;
+    not.Title = title;
+    this.notification = not;
+  }
+
   // loadRequests(event) {
   //   this.requestService.searchPattern.next(event.target.value);
   // }

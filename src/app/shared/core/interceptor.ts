@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { share, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 export class Interceptor implements HttpInterceptor {
   private static Connections: BehaviorSubject<number> = new BehaviorSubject(0);
@@ -20,7 +19,7 @@ export class Interceptor implements HttpInterceptor {
           case HttpEventType.Sent:
             // The request was sent out over the wire.
             this.connections.next(this.connections.getValue() + 1);
-            console.log('INTERCEPTED: Sent', this.connections.getValue(), request.url);
+            // console.log('INTERCEPTED: Sent', this.connections.getValue(), request.url);
             break;
           case HttpEventType.UploadProgress:
             // An upload progress event was received.
@@ -34,7 +33,7 @@ export class Interceptor implements HttpInterceptor {
           case HttpEventType.Response:
             // The full response including the body was received.
             this.connections.next(this.connections.getValue() - 1);
-            console.log('INTERCEPTED: Response', this.connections.getValue(), request.url);
+            // console.log('INTERCEPTED: Response', this.connections.getValue(), request.url);
             break;
           default:
             break;
