@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "serve",
+      "command": "ng serve",
+      "isBackground": true,
+      "type": "shell",
+      "presentation": {
+        "reveal": "always"
+      },
+      "problemMatcher": {
+        "fileLocation": "relative",
+        "background": {}
+      }
+    },
+    {
+      "label": "kill",
+      "command": "lsof -ti:4200 | xargs kill",
+      "type": "shell"
+    }
+  ]
+}

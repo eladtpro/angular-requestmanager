@@ -1,0 +1,14 @@
+.card {
+  max-width: 100%;
+  max-height: 90%;
+}
+.header-image {
+  background-image: url('../../../assets/images/nodejs-package-manager-icon-128.png');
+  background-size: cover;
+}
+
+mat-card img{
+  padding-top: 40px;
+  object-fit: cover; /*this makes de image in src fit to the size of specified below*/
+  width: 400px; /* Here you can use wherever you want to specify the width and also the height of the <img>*/
+}

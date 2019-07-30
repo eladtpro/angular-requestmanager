@@ -4,7 +4,7 @@ import { RequestService } from '../../services/request.service';
 import { Request } from '../../model/request';
 
 @Component({
-  selector: 'boi-request-grid',
+  selector: 'ms-request-grid',
   templateUrl: './request-grid.component.html',
   styleUrls: ['./request-grid.component.css']
 })

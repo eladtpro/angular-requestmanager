@@ -4,13 +4,13 @@
         "directive-selector": [
             true,
             "attribute",
-            "boi",
+            "ms",
             "camelCase"
         ],
         "component-selector": [
             true,
             "element",
-            "boi",
+            "ms",
             "kebab-case"
         ],
         "max-line-length": [

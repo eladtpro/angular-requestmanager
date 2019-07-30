@@ -1,15 +1,15 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { of, Subscription } from "rxjs";
-import { switchMap } from "rxjs/operators";
+import { Injectable, OnDestroy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { of, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
-import { Configuration } from "../../shared/model/configuration";
+import { Configuration } from '../../shared/model/configuration';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class ConfigurationService {
   private config: Configuration;
 
-  constructor(private http: HttpClient,) {}
+  constructor(private http: HttpClient, ) {}
 
   load(url: string) {
     return new Promise(resolve => {

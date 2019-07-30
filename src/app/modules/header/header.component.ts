@@ -8,7 +8,7 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { Notification } from '../../shared/model/notification';
 
 @Component({
-  selector: 'boi-header',
+  selector: 'ms-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
@@ -31,6 +31,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    // this.startNotifications();
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+    this.notifier.complete();
+  }
+
+  startNotifications() {
     this.connectionCount = this.interceptor.connections.pipe(
       tap(activeConnections => {
         // console.log('HeaderComponent', activeConnections);
@@ -49,11 +58,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(notification => {
         this.notification = notification;
     });
-  }
-
-  ngOnDestroy() {
-    this.subs.unsubscribe();
-    this.notifier.complete();
   }
 
   // loadRequests(event) {
