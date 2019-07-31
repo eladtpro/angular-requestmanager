@@ -15,7 +15,7 @@ import {
   MatGridListModule
 } from '@angular/material';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core.module';
 
 @NgModule({
@@ -33,7 +33,8 @@ import { CoreModule } from './core.module';
     MatDialogModule,
     MatGridListModule,
     MatProgressSpinnerModule,
-    BrowserAnimationsModule,
+    // NoopAnimationsModule,
+    // BrowserAnimationsModule, // ERROR Error: Uncaught (in promise): Error: BrowserModule has already been loaded. If you need access to common directives such as NgIf and NgFor from a lazy loaded module, import CommonModule instead.
     CoreModule
   ],
   exports: [

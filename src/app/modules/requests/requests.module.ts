@@ -1,21 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { Routes, RouterModule } from '@angular/router';
 import { RequestGridComponent } from './components/request-grid/request-grid.component';
-// import { AngularFireModule } from '@angular/fire';
-// import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { CoreModule } from '../../shared/modules/core.module';
 import { MaterialModule } from '../../shared/modules/material.module';
-import { RequestsRoutingModule } from './requests-routing.module';
+import { RequestService } from './services/request.service';
+import { ReduxModule } from '../../shared/store/redux.module';
 
-export const config = {
-  apiKey: 'AIzaSyC6oG1B9XjXlQpBdRphfewPU7QP2PTxasg',
-  authDomain: 'requesthub-748cc.firebaseapp.com',
-  databaseURL: 'https://requesthub-748cc.firebaseio.com',
-  projectId: 'requesthub-748cc',
-  storageBucket: 'requesthub-748cc.appspot.com',
-  messagingSenderId: '772813675652'
-};
+const routes: Routes = [
+  {path: '', component: RequestGridComponent }
+];
 
 @NgModule({
   declarations: [
@@ -25,11 +19,12 @@ export const config = {
     CommonModule,
     CoreModule,
     MaterialModule,
-    // AngularFireModule.initializeApp(config),
-    // AngularFireDatabaseModule,
-    RequestsRoutingModule
+    ReduxModule,
+    RouterModule.forChild(routes)
   ],
-  providers: []
+  providers: [
+    RequestService
+  ]
 })
 export class RequestsModule {
   constructor() {

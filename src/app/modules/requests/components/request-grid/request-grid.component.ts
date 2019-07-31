@@ -13,8 +13,10 @@ export class RequestGridComponent implements OnInit {
   loading$: Observable<boolean>;
   selected: Request;
 
-  constructor(private requestService: RequestService) {
-    this.requests$ = requestService.entities$;
+  constructor(
+    private requestService: RequestService
+    ) {
+    // this.requests$ = requestService.entities$;
   }
 
   ngOnInit() {
@@ -22,7 +24,7 @@ export class RequestGridComponent implements OnInit {
   }
 
   getRequests() {
-    this.requestService.getAll();
+    // this.requestService.getAll();
     this.close();
   }
 

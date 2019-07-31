@@ -5,7 +5,7 @@ import {
 } from '@ngrx/data';
 import { Request } from '../model/request';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class RequestService extends EntityCollectionServiceBase<Request> {
     constructor(serviceElementFactory: EntityCollectionServiceElementsFactory) {
         super('Request', serviceElementFactory);

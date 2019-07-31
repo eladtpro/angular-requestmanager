@@ -5,7 +5,7 @@ import { switchMap } from 'rxjs/operators';
 
 import { Configuration } from '../../shared/model/configuration';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ConfigurationService {
   private config: Configuration;
 

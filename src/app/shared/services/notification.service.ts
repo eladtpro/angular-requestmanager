@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 // declare var jQuery:any;
 // declare var $:any;
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class NotificationService {
   public notifier: Subject<Notification>;
   private notificationUrl: string;

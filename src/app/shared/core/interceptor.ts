@@ -1,7 +1,9 @@
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpEventType } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class Interceptor implements HttpInterceptor {
   private static Connections: BehaviorSubject<number> = new BehaviorSubject(0);
 

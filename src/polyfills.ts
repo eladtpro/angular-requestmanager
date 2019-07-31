@@ -79,7 +79,13 @@
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
-
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+
+ /***************************************************************************************************
+ * Material IMPORTS
+ * https://stackoverflow.com/questions/52584700/could-not-find-hammerjs-in-angular-6/52585556
+ */
+import 'hammerjs';
