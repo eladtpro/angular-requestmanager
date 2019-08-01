@@ -1,12 +1,22 @@
 import { environment } from 'src/environments/environment';
 
+export class FirebaseConfiguration {
+  apiKey: string;
+  authDomain: string;
+  databaseURL: string;
+  projectId: string;
+  storageBucket: string;
+  messagingSenderId: string;
+}
+
 export class Configuration {
-  public get Production() {
+  enableLogging: boolean;
+  webApiBaseUrl: string;
+  signalrBaseUrl: string;
+  firebaseUrl: string;
+  firebaseConfig: FirebaseConfiguration;
+
+  public get production() {
     return environment.production;
   }
-  constructor(
-    public WebApiBaseUrl: string,
-    public SignalrBaseUrl: string,
-    public FirebaseUrl: string,
-    public FirebaseConfig: any) {}
 }

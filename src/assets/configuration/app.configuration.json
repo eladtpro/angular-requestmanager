@@ -1,4 +1,5 @@
 {
+  "enableLogging": true,
   "webApiBaseUrl": "http://localhost:27527/api/",
   "signalrBaseUrl": "http://localhost:8080/requestmanager/api/",
   "firebaseUrl": "https://requesthub-748cc.firebaseio.com/data.json",

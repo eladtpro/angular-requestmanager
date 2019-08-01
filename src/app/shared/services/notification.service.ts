@@ -1,25 +1,25 @@
-import { HubConnection, HubConnectionBuilder, LogLevel, HttpTransportType } from '@aspnet/signalr';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
 import { Notification } from '../model/notification';
 import { ConfigurationService } from './configuration.service';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-// import * as $ from 'jquery';
-
-// declare var jQuery:any;
-// declare var $:any;
 
 @Injectable()
 export class NotificationService {
-  public notifier: Subject<Notification>;
+  constructor(private config: ConfigurationService) {
+    console.log('INITIALIZING SERVICE: NotificationService');
+
+    this.config.subscribe(configuration => {
+      this.notificationUrl = configuration.webApiBaseUrl + 'signalr';
+      this.start();
+    });
+  }
+
+  public notifier: Subject<Notification> = new Subject<Notification>();;
   private notificationUrl: string;
   private connection: HubConnection;
 
-  constructor(private config: ConfigurationService) {
-    this.notificationUrl = this.config.getConfiguration().WebApiBaseUrl + 'signalr';
-    this.notifier = new Subject<Notification>();
-   }
-
-  public async start() {
+  async start() {
     // return this.notifier;
 
     this.connection = new HubConnectionBuilder()
