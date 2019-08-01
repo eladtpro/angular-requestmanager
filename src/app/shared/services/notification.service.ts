@@ -10,6 +10,9 @@ export class NotificationService {
     console.log('INITIALIZING SERVICE: NotificationService');
 
     this.config.subscribe(configuration => {
+      if (!configuration.enableNotifications)
+        return;
+
       this.notificationUrl = configuration.webApiBaseUrl + 'signalr';
       this.start();
     });

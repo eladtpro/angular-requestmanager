@@ -18,9 +18,11 @@ export class ConfigurationService {
   }
   set configuration(config: Configuration) {
     this.config$.next(config);
-    console.log = function (message?: any, ...optionalParams: any[]): void {
-      console.assert(config.enableLogging, message, optionalParams);
-    };
+
+    if (!config.enableLogging) {
+      console.log = function (message?: any, ...optionalParams: any[]): void { };
+      console.warn(`console.log TERMINATED: config.enableLogging=${config.enableLogging}`);
+    }
   }
 
   resolve(force: boolean = false): Observable<Configuration> {
@@ -28,9 +30,9 @@ export class ConfigurationService {
       return of(this.config$.getValue());
 
     return this.http.get<Configuration>(environment.configFile)
-    .pipe(
-      tap(config => this.configuration = config)
-    );
+      .pipe(
+        tap(config => this.configuration = config)
+      );
   }
 
   subscribe(callback: (configuration: Configuration) => void) {
@@ -38,6 +40,7 @@ export class ConfigurationService {
       .subscribe((config) => {
         if (config === null)
           return;
+        console.log('CONFIGURATION LOADED', config);
         callback(config);
       });
   }

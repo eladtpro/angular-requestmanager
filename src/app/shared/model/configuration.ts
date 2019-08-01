@@ -11,6 +11,7 @@ export class FirebaseConfiguration {
 
 export class Configuration {
   enableLogging: boolean;
+  enableNotifications: boolean;
   webApiBaseUrl: string;
   signalrBaseUrl: string;
   firebaseUrl: string;
