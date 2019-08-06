@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ConfigurationResolver } from './shared/core/configuration-resolver';
+import { AuthenticationGuard } from './shared/guards/authentication.guard';
 
 const routes: Routes = [
   {
@@ -14,7 +15,8 @@ const routes: Routes = [
   },
   {
     path: 'requests',
-    loadChildren: () => import('./modules/requests/requests.module').then(m => m.RequestsModule)
+    loadChildren: () => import('./modules/requests/requests.module').then(m => m.RequestsModule),
+    resolve: { resolver: ConfigurationResolver }, canActivate: [AuthenticationGuard]
   },
   { path: '**', redirectTo: 'home' }
 ];

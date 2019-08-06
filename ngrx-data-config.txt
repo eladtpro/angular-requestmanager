@@ -1,0 +1,13 @@
+C:\Users\eladt\Documents\Projects\Angular\RequestManager\node_modules\@ngrx\data\fesm2015\data.js
+
+line 1250: this.config = config;
+line 1047: const { root = 'api', delete404OK = true, getDelay = 0, saveDelay = 0, timeout: to = 0, } = config || {};
+
+DefaultDataService
+config
+
+
+HttpUrlGenerator
+DefaultHttpUrlGenerator
+
+

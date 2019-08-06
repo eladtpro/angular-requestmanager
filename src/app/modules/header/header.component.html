@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <span>
     <div class="img-container">
-      <a href="#" [routerLink]="['requests']" [routerLinkActive]="['active']">
+      <a href="#" [routerLink]="['home']" [routerLinkActive]="['active']">
         <img alt="Microsoft Logo" #logo src="../../../../../assets/images/microsoft.png" aria-hidden="true" style="height: 46px;">
         <div class="img-centered">{{ connectionCount | async }}</div>
       </a>
@@ -11,7 +11,7 @@
     <button mat-raised-button  [routerLink]="['requests']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Requests</button>
   </span>
   <span>
-      <button mat-raised-button><i class="fas fa-plus"></i> Add Rquest</button>
+      <button mat-raised-button [routerLink]="['requests/new-request']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><i class="fas fa-plus"></i> Add Rquest</button>
   </span>
   <!-- This fills the remaining space of the current row -->
   <span class="fill-remaining-space">
@@ -23,9 +23,9 @@
   </span>
   <span>
     <form>
-      <!-- <mat-form-field> -->
+      <mat-form-field>
         <input matInput type="search" (keyup)="notify($event.target.value)" placeholder="Search Request" aria-label="Search">
-      <!-- </mat-form-field> -->
+      </mat-form-field>
       <button mat-flat-button type="search">Search</button>
     </form>
 </span>

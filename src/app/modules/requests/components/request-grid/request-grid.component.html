@@ -5,10 +5,10 @@
 </div>
 <mat-spinner *ngIf="loading$ | async;else requestList" mode="indeterminate" color="accent"></mat-spinner>
 <ng-template #requestList>
-  <mat-grid-list cols="2" rowHeight="5:1" *ngFor="let request of this.requests$ | async">
-    <mat-grid-tile>{{ request.Id }}</mat-grid-tile>
-    <mat-grid-tile>{{ request.User }}</mat-grid-tile>
-    <mat-grid-tile>{{ request.Package.Name }}</mat-grid-tile>
-    <mat-grid-tile>{{ request.StatusChangedOn }}</mat-grid-tile>
+  <mat-grid-list cols="4" rowHeight="5:1" *ngFor="let request of this.requests$ | async">
+    <mat-grid-tile>{{ request.id }}</mat-grid-tile>
+    <mat-grid-tile>{{ request.user }}</mat-grid-tile>
+    <mat-grid-tile>{{ request.package.name }}</mat-grid-tile>
+    <mat-grid-tile>{{ request.statusChangedOn }}</mat-grid-tile>
   </mat-grid-list>
 </ng-template>

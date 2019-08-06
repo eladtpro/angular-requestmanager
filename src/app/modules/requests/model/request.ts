@@ -5,13 +5,13 @@ import { Guid } from '../../../shared/model/guid';
 import { IEntity } from 'src/app/shared/model/ientity';
 
 export class Request implements IEntity {
-  public Id: number ;
-  public User: string;
-  public Email: string;
-  public Package: Package ;
-  public SubmittedOn: number ;
-  public Status: RequestStatus;
-  public StatusChangedOn: number;
-  public CorrelationKey: Guid;
-  public Distribution: DistributionType;
+  public id: number ;
+  public user: string;
+  public email: string;
+  public package: Package ;
+  public submittedOn: Date ;
+  public status: RequestStatus;
+  public statusChangedOn: Date;
+  public correlationKey: Guid;
+  public distribution: DistributionType;
 }

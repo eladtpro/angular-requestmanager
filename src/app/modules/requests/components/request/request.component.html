@@ -1,0 +1,56 @@
+<mat-toolbar color="primary">
+  <span class="fill-remaining-space">My Reactive Form with Material</span>
+</mat-toolbar>
+
+<div class="container" *ngIf="!post; else forminfo" novalidate>
+  <form [formGroup]="requestForm" (ngSubmit)="onSubmit(requestForm.value)" class="form">
+    <mat-form-field class="form-element">
+      <mat-label>Username</mat-label>
+      <input matInput placeholder="Username" formControlName="user">
+      <mat-error *ngIf="!user.valid && user.touched">
+        {{ validator.getErrors(user) }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form-element">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Email Address" formControlName="email">
+      <mat-error *ngIf="!email.valid && email.touched">
+        {{ validator.getErrors(email) }}
+      </mat-error>
+    </mat-form-field>
+
+    <div formGroupName="package">
+      <mat-form-field class="form-element">
+        <mat-label>Package Name</mat-label>
+        <input matInput placeholder="Packege[@Version]" formControlName="name">
+        <mat-error *ngIf="!packageName.valid && packageName.touched">
+          {{ validator.getErrors(packageName) }}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Package Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option></mat-option>
+          <mat-option *ngFor="let key of packsgeTypesKeys" [value]="key">{{ PacksgeTypes[key] }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="!packageType.valid && packageType.touched">
+          {{ validator.getErrors(packageType) }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <!-- <mat-form-field class="form-element"> -->
+    <mat-slide-toggle formArrayName="distribution">Notify my manager</mat-slide-toggle>
+    <!-- </mat-form-field> -->
+    <div class="form-element">
+      <button mat-raised-button color="primary" type="submit" class="button"
+        [disabled]="!requestForm.valid">Save</button>
+    </div>
+  </form>
+</div>
+
+<ng-template #forminfo>
+  <div class="container">
+    {{ post | json }}
+  </div>
+</ng-template>

@@ -1,6 +1,6 @@
 import { PackageType } from './package-type';
 
 export class Package {
-  public Name: string;
-  public Type: PackageType;
+  public name: string;
+  public type: PackageType;
 }

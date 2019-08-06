@@ -3,24 +3,24 @@ import { PackageType } from './package-type';
 import { IEntity } from 'src/app/shared/model/ientity';
 
 export class RequestInfo implements IEntity {
-  public get Id() {
-    return this.Request.Id;
+  public get id() {
+    return this.request.id;
   }
   public Key: string;
   // tslint:disable-next-line:no-shadowed-variable
-  constructor(public Request: Request, public IconUrl?: string, public Caption?: string) {
-    switch (Request.Package.Type) {
+  constructor(public request: Request, public iconUrl?: string, public caption?: string) {
+    switch (request.package.type) {
       case PackageType.Angular:
-        this.IconUrl = '../../../../../assets/images/nodejslogo.png';
-        this.Caption = 'nodejs package';
+        this.iconUrl = '../../../../../assets/images/nodejslogo.png';
+        this.caption = 'nodejs package';
         break;
       case PackageType.Nuget:
-        this.IconUrl = '../../../../../assets/images/packageDefaultIcon_nuget.png';
-        this.Caption = 'nuget package';
+        this.iconUrl = '../../../../../assets/images/packageDefaultIcon_nuget.png';
+        this.caption = 'nuget package';
         break;
       default:
-        this.IconUrl =  '../../../../../assets/images/blank256.png';
-        this.Caption = 'unknown';
+        this.iconUrl =  '../../../../../assets/images/blank256.png';
+        this.caption = 'unknown';
     }
   }
 }

@@ -8,7 +8,7 @@ const entityMetadata: EntityMetadataMap = {
 };
 
 // // because the plural of "hero" is not "heros" - for api renaming
-// const pluralNames = { Request: 'Requests' };
+// const pluralNames = { Request: 'Requests111' };
 
 export const entityConfig = {
     entityMetadata,

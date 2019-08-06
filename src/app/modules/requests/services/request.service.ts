@@ -7,7 +7,7 @@ import { Request } from '../model/request';
 
 @Injectable()
 export class RequestService extends EntityCollectionServiceBase<Request> {
-    constructor(serviceElementFactory: EntityCollectionServiceElementsFactory) {
-        super('Request', serviceElementFactory);
-    }
+  constructor(serviceElementFactory: EntityCollectionServiceElementsFactory) {
+      super('Request', serviceElementFactory);
+  }
 }

@@ -16,7 +16,7 @@ export class RequestGridComponent implements OnInit {
   constructor(
     private requestService: RequestService
     ) {
-    // this.requests$ = requestService.entities$;
+    this.requests$ = requestService.entities$;
   }
 
   ngOnInit() {
@@ -24,7 +24,7 @@ export class RequestGridComponent implements OnInit {
   }
 
   getRequests() {
-    // this.requestService.getAll();
+    this.requestService.getAll();
     this.close();
   }
 
