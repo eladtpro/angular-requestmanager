@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  constructor() { }
+  constructor() {
+    console.log('INITIALIZING SERVICE: AuthenticationService');
+   }
 
-  // TODO: add implementation
+  // TODO: save token in sessionStorage: StorageSerializer
+  // TODO: add HostLitener to 'Enter' key event
+  // TODO: add B2C implementation
   authenticated = true;
 }

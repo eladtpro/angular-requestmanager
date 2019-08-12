@@ -7,10 +7,10 @@ const entityMetadata: EntityMetadataMap = {
     // observabe selector
 };
 
-// // because the plural of "hero" is not "heros" - for api renaming
-// const pluralNames = { Request: 'Requests111' };
+// because the plural of "hero" is not "heros" - for api renaming
+const pluralNames = { Request: 'Request' };
 
 export const entityConfig = {
     entityMetadata,
-    // pluralNames
+    pluralNames
 };

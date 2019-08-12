@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  configFile: 'assets/configuration/app.configuration.json'
+  enableTracing: false,
+  configFile: 'assets/configuration/app.configuration.prod.json'
 };

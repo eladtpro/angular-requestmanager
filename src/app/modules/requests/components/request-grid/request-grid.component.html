@@ -1,14 +1,67 @@
-<div class="control-panel">
-  <div class="button-panel">
-    <button mat-raised-button color="primary" type="button" (click)="getRequests()" matTooltip="Refresh the heroes">Refresh</button>
-  </div>
-</div>
-<mat-spinner *ngIf="loading$ | async;else requestList" mode="indeterminate" color="accent"></mat-spinner>
-<ng-template #requestList>
-  <mat-grid-list cols="4" rowHeight="5:1" *ngFor="let request of this.requests$ | async">
-    <mat-grid-tile>{{ request.id }}</mat-grid-tile>
-    <mat-grid-tile>{{ request.user }}</mat-grid-tile>
-    <mat-grid-tile>{{ request.package.name }}</mat-grid-tile>
-    <mat-grid-tile>{{ request.statusChangedOn }}</mat-grid-tile>
-  </mat-grid-list>
-</ng-template>
+<mat-toolbar>
+  <span>
+    <mat-form-field class="toolbar-filter">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </span>
+  <span class="toolbar-flex"></span>
+  <span>
+    <button mat-raised-button color="primary" (click)="getRequests()" matTooltip="Reload Results"><i
+        class="fas fa-sync"></i> Refresh</button>
+  </span>
+  <span class="toolbar-space"></span>
+  <span>
+    <button mat-raised-button [routerLink]="['new-request']" [routerLinkActive]="['active']" [queryParams]="{}"
+      [routerLinkActiveOptions]="{exact:true}"><i class="fas fa-plus" matTooltip="Add new packege request"></i>
+      Add</button>
+  </span>
+</mat-toolbar>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> # </th>
+    <td mat-cell *matCellDef="let request"> {{request.id}} </td>
+  </ng-container>
+  <ng-container matColumnDef="user">
+    <th mat-header-cell *matHeaderCellDef> User </th>
+    <td mat-cell *matCellDef="let request"> {{request.user}} </td>
+  </ng-container>
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef> Email Address </th>
+    <td mat-cell *matCellDef="let request"> {{request.email}} </td>
+  </ng-container>
+  <ng-container matColumnDef="packageName">
+    <th mat-header-cell *matHeaderCellDef> Package Name </th>
+    <td mat-cell *matCellDef="let request"> {{request.package.name}} </td>
+  </ng-container>
+  <ng-container matColumnDef="packageType">
+    <th mat-header-cell *matHeaderCellDef> Package Type </th>
+    <td mat-cell *matCellDef="let request"> {{PacksgeTypes[request.package.type]}} </td>
+  </ng-container>
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let request"> {{RequestStatus[request.status] | titleCamelCase}} </td>
+  </ng-container>
+  <ng-container matColumnDef="statusChangedOn">
+    <th mat-header-cell *matHeaderCellDef> Status Changed On </th>
+    <td mat-cell *matCellDef="let request"> {{request.statusChangedOn | date }} </td>
+  </ng-container>
+  <ng-container matColumnDef="submittedOn">
+    <th mat-header-cell *matHeaderCellDef> Submitted On </th>
+    <td mat-cell *matCellDef="let request"> {{request.submittedOn | date }} </td>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let request">
+      <button mat-raised-button color="primary" class="action-button" (click)="modalRequest(request, AActions.Delete)"
+        matTooltip="Delete Request">
+      <i class="fas fa-trash-alt"></i>
+      </button>
+      &nbsp;
+      <button mat-raised-button color="primary" class="action-button" (click)="modalRequest(request, AActions.Modify)" matTooltip="Modify Request"><i
+          class="fas fa-edit"></i></button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

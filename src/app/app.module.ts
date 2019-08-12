@@ -1,17 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderModule } from './modules/header/header.module';
 import { AppComponent } from './app.component';
-import { ConfigurationService } from './shared/services/configuration.service';
-import { AuthenticationService } from './shared/services/authentication.service';
-
-export function initAuthentication(configService: ConfigurationService) {
-  // Note: this factory need to return a function (that return a promise)
-  return () => configService.resolve();
-}
+import { CoreModule } from './shared/modules/core.module';
 
 @NgModule({
   declarations: [
@@ -20,17 +14,11 @@ export function initAuthentication(configService: ConfigurationService) {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    CoreModule.forRoot(),
     AppRoutingModule,
     HeaderModule
   ],
   providers: [
-    AuthenticationService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initAuthentication,
-      deps: [ConfigurationService],
-      multi: true
-    }
   ],
    bootstrap: [AppComponent]
 })

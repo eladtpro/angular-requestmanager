@@ -1,5 +1,10 @@
 <mat-toolbar color="primary">
-  <span class="fill-remaining-space">My Reactive Form with Material</span>
+  <span class="fill-remaining-space" [ngSwitch]="action">
+    <span *ngSwitchCase="AActions.Add">New Request</span>
+    <span *ngSwitchCase="AActions.Modify">Modify {{ request.package.name }}</span>
+    <span *ngSwitchCase="AActions.Delete">Delete {{ request.package.name }}</span>
+    <span *ngSwitchDefault>N\A</span>
+  </span>
 </mat-toolbar>
 
 <div class="container" *ngIf="!post; else forminfo" novalidate>
@@ -28,24 +33,33 @@
           {{ validator.getErrors(packageName) }}
         </mat-error>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="form-element">
         <mat-label>Package Type</mat-label>
-        <mat-select formControlName="type">
-          <mat-option></mat-option>
-          <mat-option *ngFor="let key of packsgeTypesKeys" [value]="key">{{ PacksgeTypes[key] }}</mat-option>
+        <mat-select #selectPackageType formControlName="type" [(value)]="request.package.type"
+          value="request.package.type">
+          <mat-option *ngFor="let val of PacksgeTypesValues" [value]="val">{{ PacksgeTypes[val] }}</mat-option>
         </mat-select>
         <mat-error *ngIf="!packageType.valid && packageType.touched">
           {{ validator.getErrors(packageType) }}
         </mat-error>
       </mat-form-field>
     </div>
-    <!-- <mat-form-field class="form-element"> -->
-    <mat-slide-toggle formArrayName="distribution">Notify my manager</mat-slide-toggle>
-    <!-- </mat-form-field> -->
-    <div class="form-element">
-      <button mat-raised-button color="primary" type="submit" class="button"
-        [disabled]="!requestForm.valid">Save</button>
-    </div>
+    <mat-slide-toggle class="form-element" formArrayName="distribution">Notify my manager</mat-slide-toggle>
+    <mat-grid-list cols="3" rowHeight="2:1" class="form-element">
+      <mat-grid-tile>
+        <button mat-raised-button color="primary" class="button" [mat-dialog-close]="true">Cancel</button>
+      </mat-grid-tile>
+      <mat-grid-tile></mat-grid-tile>
+      <mat-grid-tile [ngSwitch]="action">
+        <button mat-raised-button *ngSwitchCase="AActions.Add" color="primary" type="submit" class="button"
+          [disabled]="!requestForm.valid">Submit</button>
+        <button mat-raised-button *ngSwitchCase="AActions.Modify" color="primary" type="submit" class="button"
+          [disabled]="!requestForm.valid">Update</button>
+        <button mat-raised-button *ngSwitchCase="AActions.Delete" color="warn" type="submit" class="button"
+          [disabled]="!requestForm.valid">Delete</button>
+        <span *ngSwitchDefault>N\A</span>
+      </mat-grid-tile>
+    </mat-grid-list>
   </form>
 </div>
 

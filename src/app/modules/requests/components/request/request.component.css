@@ -15,8 +15,9 @@
 }
 
 .form-element {
-  padding: 5px 0px 25px 2px;
   width: 100%;
+  vertical-align: bottom;
+  padding: 15px 0px 5px 2px;
 }
 
 .button {

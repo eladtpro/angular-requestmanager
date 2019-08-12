@@ -1,0 +1,30 @@
+/* Structure */
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.toolbar-filter {
+  width:400px !important;
+}
+
+.toolbar-flex {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.toolbar-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  padding-left: 20px;
+}
+
+ .action-button{
+   min-width: unset !important;
+  /* font-size: unset !important */
+}

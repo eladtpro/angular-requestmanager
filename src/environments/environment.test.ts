@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   enableTracing: true,
-  configFile: 'assets/configuration/app.configuration.json'
+  configFile: 'assets/configuration/app.configuration.test.json'
 };

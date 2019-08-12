@@ -4,7 +4,10 @@ import { ConfigurationService } from './configuration.service';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
-@Injectable()
+// TODO: use webWorker
+// TODO: create notification component as inline or popup
+
+@Injectable({ providedIn: 'root' })
 export class NotificationService {
   constructor(private config: ConfigurationService) {
     console.log('INITIALIZING SERVICE: NotificationService');
@@ -13,12 +16,12 @@ export class NotificationService {
       if (!configuration.enableNotifications)
         return;
 
-      this.notificationUrl = configuration.webApiBaseUrl + 'signalr';
-      this.start();
+      this.notificationUrl = configuration.signalrBaseUrl + 'signalr';
+      // this.start();
     });
   }
 
-  public notifier: Subject<Notification> = new Subject<Notification>();;
+  public notifier: Subject<Notification> = new Subject<Notification>();
   private notificationUrl: string;
   private connection: HubConnection;
 

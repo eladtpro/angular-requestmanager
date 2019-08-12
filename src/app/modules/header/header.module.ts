@@ -4,16 +4,20 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './header.component';
 import { MaterialModule } from '../../shared/modules/material.module';
 import { CoreModule } from '../../shared/modules/core.module';
+import { SpinnerComponent } from './spinner.component';
+import { ReduxModule } from '../../shared/store/redux.module';
 
 @NgModule({
   declarations: [
-    HeaderComponent
+    HeaderComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     CoreModule,
-    MaterialModule
+    MaterialModule,
+    ReduxModule
   ],
   exports: [
     HeaderComponent

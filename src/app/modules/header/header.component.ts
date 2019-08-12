@@ -3,9 +3,9 @@ import { share, tap, map, takeUntil } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { SubSink } from 'subsink';
 
-import { Interceptor } from '../../shared/core/interceptor';
 import { NotificationService } from '../../shared/services/notification.service';
 import { Notification } from '../../shared/model/notification';
+import { EntityServices, EntityCollectionService, MergeStrategy } from '@ngrx/data';
 
 @Component({
   selector: 'ms-header',
@@ -13,22 +13,21 @@ import { Notification } from '../../shared/model/notification';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  constructor(entityServices: EntityServices, private notificationService: NotificationService) {
+    this.requestService = entityServices.getEntityCollectionService('Request');
+    this.requestService.filteredEntities$.subscribe(requests => {
+      console.log('HeaderComponent requestService.filteredEntities$ FILTERED', requests);
+    });
+  }
+
+  requestService: EntityCollectionService<Request>;
   connectionCount: Observable<string>;
   private subs = new SubSink();
 
-  @ViewChild(ElementRef, {static: true}) logo: ElementRef;
   // @ViewChild('notificationAlert') notificationAlert: TemplateRef<Notification>;
   private notifier: Subject<Notification>;
 
   public notification: Notification;
-  public logoUrl = '../../../../../assets/images/microsoft.png';
-
-  constructor(
-    public interceptor: Interceptor,
-    private renderer: Renderer2,
-    private notificationService: NotificationService
-    ) { }
-
 
   ngOnInit() {
     // this.startNotifications();
@@ -40,36 +39,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   startNotifications() {
-    this.connectionCount = this.interceptor.connections.pipe(
-      tap(activeConnections => {
-        // console.log('HeaderComponent', activeConnections);
-        this.logoUrl = 0 !== activeConnections ?
-          '../../../../../assets/images/colorful_loader.gif' :
-          '../../../../../assets/images/microsoft.png';
-        this.renderer.setAttribute(this.logo.nativeElement, 'src', this.logoUrl);
-      }),
-      map(activeConnections => activeConnections > 0 ? activeConnections.toString() : ''),
-      share());
-
     this.notificationService.start();
     this.notifier = this.notificationService.notifier;
     this.notifier
       .pipe(takeUntil(this.notifier))
       .subscribe(notification => {
         this.notification = notification;
+      });
+  }
+
+  // notify(msg: string, title?: string) {
+  //   const not = new Notification();
+  //   not.Content = msg;
+  //   not.Title = title;
+  //   this.notification = not;
+  // }
+
+  loadRequests(event) {
+    this.requestService.getWithQuery({ 'pattern': event.target.value }, { mergeStrategy: MergeStrategy.OverwriteChanges })
+    .subscribe(requests => {
+      console.log('HeaderComponent requestService.getWithQuery.subscribe RETRIEVED', requests);
     });
   }
 
-  notify(msg: string, title?: string) {
-    const not = new Notification();
-    not.Content = msg;
-    not.Title = title;
-    this.notification = not;
-  }
-
-  // loadRequests(event) {
-  //   this.requestService.searchPattern.next(event.target.value);
-  // }
+// TODO: add doc documents pages
 
   // reloadData(){
   //   this.requestService.reInitialize(this.dummy.Requests()).subscribe(

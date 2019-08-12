@@ -2,18 +2,26 @@
   <span>
     <div class="img-container">
       <a href="#" [routerLink]="['home']" [routerLinkActive]="['active']">
-        <img alt="Microsoft Logo" #logo src="../../../../../assets/images/microsoft.png" aria-hidden="true" style="height: 46px;">
-        <div class="img-centered">{{ connectionCount | async }}</div>
+        <ms-spinner></ms-spinner>
       </a>
     </div>
   </span>
-  <span>
-    <button mat-raised-button  [routerLink]="['requests']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Requests</button>
+  <span class="logo">
+    Azure
   </span>
   <span>
-      <button mat-raised-button [routerLink]="['requests/new-request']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><i class="fas fa-plus"></i> Add Rquest</button>
+    <button mat-button [routerLink]="['home']" [routerLinkActive]="['active']"
+      [routerLinkActiveOptions]="{exact:true}">Home</button>
   </span>
-  <!-- This fills the remaining space of the current row -->
+  <span>
+    <button mat-button [routerLink]="['requests']" [routerLinkActive]="['active']"
+      [routerLinkActiveOptions]="{exact:true}">Requests</button>
+  </span>
+  <span>
+      <button mat-button [routerLink]="['docs']" [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{exact:true}">Documentation</button>
+    </span>
+    <!-- This fills the remaining space of the current row -->
   <span class="fill-remaining-space">
     <ng-template #notificationAlert [ngIf]="this.notification">
       <div class="alert alert-success fadein">
@@ -24,9 +32,9 @@
   <span>
     <form>
       <mat-form-field>
-        <input matInput type="search" (keyup)="notify($event.target.value)" placeholder="Search Request" aria-label="Search">
+        <input matInput type="search" (keyup)="loadRequests($event)" placeholder="Search Request" aria-label="Search">
       </mat-form-field>
       <button mat-flat-button type="search">Search</button>
     </form>
-</span>
+  </span>
 </mat-toolbar>
