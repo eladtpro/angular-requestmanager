@@ -36,6 +36,7 @@ export class RequestGridComponent implements OnInit {
   PacksgeTypes = PackageType;
 
   ngOnInit() {
+    // TODO: cdk virtual scroll
     this.getRequests();
   }
 

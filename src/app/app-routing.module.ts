@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ConfigurationResolver } from './shared/core/configuration-resolver';
 import { AuthenticationGuard } from './shared/guards/authentication.guard';
 
+// TODO: add login page
 const routes: Routes = [
   {
     path: '',

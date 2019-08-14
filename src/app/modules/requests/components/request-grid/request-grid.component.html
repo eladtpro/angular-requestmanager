@@ -11,9 +11,8 @@
   </span>
   <span class="toolbar-space"></span>
   <span>
-    <button mat-raised-button [routerLink]="['new-request']" [routerLinkActive]="['active']" [queryParams]="{}"
-      [routerLinkActiveOptions]="{exact:true}"><i class="fas fa-plus" matTooltip="Add new packege request"></i>
-      Add</button>
+    <button mat-raised-button color="primary" class="action-button" (click)="modalRequest(null, AActions.Add)"
+      matTooltip="Add new packege request"><i class="fas fa-plus"></i> Add</button>
   </span>
 </mat-toolbar>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -54,11 +53,11 @@
     <td mat-cell *matCellDef="let request">
       <button mat-raised-button color="primary" class="action-button" (click)="modalRequest(request, AActions.Delete)"
         matTooltip="Delete Request">
-      <i class="fas fa-trash-alt"></i>
+        <i class="fas fa-trash-alt"></i>
       </button>
       &nbsp;
-      <button mat-raised-button color="primary" class="action-button" (click)="modalRequest(request, AActions.Modify)" matTooltip="Modify Request"><i
-          class="fas fa-edit"></i></button>
+      <button mat-raised-button color="primary" class="action-button" (click)="modalRequest(request, AActions.Modify)"
+        matTooltip="Modify Request"><i class="fas fa-edit"></i></button>
     </td>
   </ng-container>
 

@@ -1,7 +1,7 @@
 {
   "enableLogging": true,
   "enableNotifications": false,
-  "webApiBaseUrl": "https://localhost:44371/api",
+  "webApiBaseUrl": "http://localhost/api",
   "signalrBaseUrl": "http://localhost:8080/requestmanager/api/",
   "firebaseUrl": "https://requesthub-748cc.firebaseio.com/data.json",
   "firebaseConfig": {
