@@ -18,10 +18,14 @@
       [routerLinkActiveOptions]="{exact:true}">Requests</button>
   </span>
   <span>
-      <button mat-button [routerLink]="['docs']" [routerLinkActive]="['active']"
-        [routerLinkActiveOptions]="{exact:true}">Documentation</button>
-    </span>
-    <!-- This fills the remaining space of the current row -->
+    <button mat-button [matMenuTriggerFor]="menu">Documentation</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.npm]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Npm (Node)</button>
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.nuget]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Nuget</button>
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.extension]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Extension</button>
+    </mat-menu>
+  </span>
+  <!-- This fills the remaining space of the current row -->
   <span class="fill-remaining-space">
     <ng-template #notificationAlert [ngIf]="this.notification">
       <div class="alert alert-success fadein">
@@ -34,7 +38,9 @@
       <mat-form-field>
         <input matInput type="search" (keyup)="loadRequests($event)" placeholder="Search" aria-label="Search">
       </mat-form-field>
-      <button mat-flat-button type="search">Search</button>
     </form>
+  </span>
+  <span>
+    {{ displayName }}
   </span>
 </mat-toolbar>

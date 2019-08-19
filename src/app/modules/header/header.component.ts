@@ -6,6 +6,8 @@ import { SubSink } from 'subsink';
 import { NotificationService } from '../../shared/services/notification.service';
 import { Notification } from '../../shared/model/notification';
 import { EntityServices, EntityCollectionService, MergeStrategy } from '@ngrx/data';
+import { LoginService } from '../login/services/login.service';
+import { PackageTypes } from '../requests/model/package-type';
 
 @Component({
   selector: 'ms-header',
@@ -13,7 +15,7 @@ import { EntityServices, EntityCollectionService, MergeStrategy } from '@ngrx/da
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  constructor(entityServices: EntityServices, private notificationService: NotificationService) {
+  constructor(entityServices: EntityServices, private notificationService: NotificationService, private login: LoginService) {
     this.requestService = entityServices.getEntityCollectionService('Request');
     this.requestService.filteredEntities$.subscribe(requests => {
       console.log('HeaderComponent requestService.filteredEntities$ FILTERED', requests);
@@ -23,13 +25,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   requestService: EntityCollectionService<Request>;
   connectionCount: Observable<string>;
   private subs = new SubSink();
-
   // @ViewChild('notificationAlert') notificationAlert: TemplateRef<Notification>;
   private notifier: Subject<Notification>;
-
-  public notification: Notification;
+  notification: Notification;
+  PackageTypes = PackageTypes;
+  displayName = 'unknown';
 
   ngOnInit() {
+    this.login.authenticate()
+    .subscribe(user => {
+        this.displayName = user.displayName;
+      });
     // this.startNotifications();
   }
 

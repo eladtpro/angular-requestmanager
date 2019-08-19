@@ -1,5 +1,5 @@
 import { Request } from './request';
-import { PackageType } from './package-type';
+import { PackageTypes } from './package-type';
 import { IEntity } from 'src/app/shared/model/ientity';
 
 export class RequestInfo implements IEntity {
@@ -10,11 +10,11 @@ export class RequestInfo implements IEntity {
   // tslint:disable-next-line:no-shadowed-variable
   constructor(public request: Request, public iconUrl?: string, public caption?: string) {
     switch (request.package.type) {
-      case PackageType.Angular:
+      case PackageTypes.npm:
         this.iconUrl = '../../../../../assets/images/nodejslogo.png';
         this.caption = 'nodejs package';
         break;
-      case PackageType.Nuget:
+      case PackageTypes.nuget:
         this.iconUrl = '../../../../../assets/images/packageDefaultIcon_nuget.png';
         this.caption = 'nuget package';
         break;

@@ -9,16 +9,19 @@ import { RequestComponent } from './components/request/request.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from '../../shared/modules/pipes.module';
 import { DialogsModule } from '../dialogs/dialogs.module';
+import { DocumentationComponent } from './components/documentation/documentation.component';
 
 const routes: Routes = [
-  {path: '', component: RequestGridComponent },
-  {path: 'new-request', component: RequestComponent }
+  { path: '', component: RequestGridComponent },
+  { path: 'new-request', component: RequestComponent },
+  { path: 'docs/:type', component: DocumentationComponent }
 ];
 
 @NgModule({
   declarations: [
     RequestGridComponent,
-    RequestComponent
+    RequestComponent,
+    DocumentationComponent
   ],
   imports: [
     CommonModule,

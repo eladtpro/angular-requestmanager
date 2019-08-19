@@ -1,10 +1,10 @@
 import { HttpParams } from "@angular/common/http";
 import { RequestStatus } from "./request-status";
-import { PackageType } from "./package-type";
+import { PackageTypes } from "./package-type";
 
 export class Query {
 
-  constructor(public status?: RequestStatus, public type?: PackageType, public pattern?: string) { }
+  constructor(public status?: RequestStatus, public type?: PackageTypes, public pattern?: string) { }
 
   public buildParams(): HttpParams {
     return new HttpParams()

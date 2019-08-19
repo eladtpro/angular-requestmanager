@@ -6,6 +6,7 @@ import { MaterialModule } from '../../shared/modules/material.module';
 import { CoreModule } from '../../shared/modules/core.module';
 import { SpinnerComponent } from './spinner.component';
 import { ReduxModule } from '../../shared/store/redux.module';
+import { LoginModule } from '../login/login.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ReduxModule } from '../../shared/store/redux.module';
     RouterModule,
     CoreModule,
     MaterialModule,
-    ReduxModule
+    ReduxModule,
+    LoginModule
   ],
   exports: [
     HeaderComponent

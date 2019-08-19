@@ -5,7 +5,7 @@ import { throwError } from 'rxjs';
 import { Action } from '../../../../shared/model/action';
 import { Request } from '../../model/request';
 import { Package } from '../../model/package';
-import { PackageType } from '../../model/package-type';
+import { PackageTypes } from '../../model/package-type';
 import { RequestService } from '../../services/request.service';
 import { RequestStatus } from '../../model/request-status';
 import { DistributionType } from '../../model/distribution-type';
@@ -35,8 +35,8 @@ export class RequestComponent implements OnInit {
   validator: Validator;
 
   AActions = Action;
-  PacksgeTypes = PackageType;
-  PacksgeTypesValues: string[] = Object.values(PackageType).filter(Number);
+  PacksgeTypes = PackageTypes;
+  PacksgeTypesValues: string[] = Object.values(PackageTypes).filter(Number);
   @ViewChild(ElementRef, { static: false }) selectPackageType: ElementRef;
 
 
@@ -114,7 +114,7 @@ export class RequestComponent implements OnInit {
   private getDefaultRequest(): Request {
     const request = new Request();
     request.package = new Package();
-    request.package.type = PackageType.Angular;
+    request.package.type = PackageTypes.npm;
     request.submittedOn = new Date();
     request.statusChangedOn = new Date();
     request.status = RequestStatus.Pending;

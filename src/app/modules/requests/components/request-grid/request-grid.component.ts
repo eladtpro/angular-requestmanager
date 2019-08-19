@@ -7,7 +7,7 @@ import { RequestService } from '../../services/request.service';
 import { Request } from '../../model/request';
 import { RequestComponent } from '../request/request.component';
 import { Action } from '../../../../shared/model/action';
-import { PackageType } from '../../model/package-type';
+import { PackageTypes } from '../../model/package-type';
 import { RequestStatus } from '../../model/request-status';
 
 @Component({
@@ -33,7 +33,7 @@ export class RequestGridComponent implements OnInit {
   displayedColumns: string[] = ['id', 'user', 'email', 'packageName', 'packageType', 'status', 'statusChangedOn', 'submittedOn', 'actions'];
   dataSource: MatTableDataSource<Request> = null;
   RequestStatus = RequestStatus;
-  PacksgeTypes = PackageType;
+  PacksgeTypes = PackageTypes;
 
   ngOnInit() {
     // TODO: cdk virtual scroll

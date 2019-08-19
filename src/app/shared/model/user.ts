@@ -1,9 +1,11 @@
-export class User
-{
-    public DisplayName:string;
-    public Username:string;
-
-    public AuthenticationType: string;
-    public IsAuthenticated: boolean;
-    public Name: string;
+export interface User {
+  displayName: string;
+  username: string;
+  authenticationType: string;
+  isAuthenticated: boolean;
+  name: string;
+  domain: string;
+  firstName: string;
+  lastName: string;
+  email: string;
 }

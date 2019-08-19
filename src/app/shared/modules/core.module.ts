@@ -36,13 +36,8 @@ export class CoreModule {
       providers: [
         { provide: 'Window', useValue: window },
         { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
-        {
-          provide: APP_INITIALIZER,
-          useFactory: initConfiguration,
-          deps: [ConfigurationService],
-          multi: true
-        }
+        { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor,     multi: true },
+        { provide: APP_INITIALIZER,   useFactory: initConfiguration,    multi: true,  deps: [ConfigurationService] }
       ]
     };
   }

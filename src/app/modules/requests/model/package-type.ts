@@ -1,5 +1,5 @@
-export enum PackageType {
-  Any = 0,
-  Angular = 1,
-  Nuget = 2
+export enum PackageTypes {
+  npm = 0,
+  nuget = 1,
+  extension = 2
 }
