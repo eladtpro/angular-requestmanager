@@ -9,9 +9,12 @@ export class DataServiceConfig extends DefaultDataServiceConfig {
     console.log('INITIALIZING SERVICE: DataServiceConfig');
     // this.root = 'https://localhost:44371/api';
     // 'http://requestsdemoapi-test.azurewebsites.net/api';
-    this.config.subscribe(c => {
-      this.root = this.config.configuration.webApiBaseUrl;
-      this.delete404OK = false; // tells the data service what to do if the server responds to a DELETE request with a 404 - Not Found.
+    // this.root = this.config.configuration.webApiBaseUrl;
+    this.delete404OK = false; // tells the data service what to do if the server responds to a DELETE request with a 404 - Not Found.
+
+    this.config.subscribe(cfg => {
+      this.root = cfg.webApiBaseUrl;
     });
+
   }
 }

@@ -6,10 +6,9 @@ import { SubSink } from 'subsink';
 import { NotificationService } from '../../shared/services/notification.service';
 import { Notification } from '../../shared/model/notification';
 import { EntityServices, EntityCollectionService, MergeStrategy } from '@ngrx/data';
-import { LoginService } from '../login/services/login.service';
 import { PackageTypes } from '../requests/model/package-type';
 import { MatDialog, MatIconRegistry } from '@angular/material';
-import { LoginComponent } from '../login/login/login.component';
+import { LoginComponent } from './login/login.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 
@@ -21,18 +20,15 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
 export class HeaderComponent implements OnInit, OnDestroy {
   constructor(entityServices: EntityServices,
     private notificationService: NotificationService,
-    private login: LoginService,
     private auth: AuthenticationService,
     private dialog: MatDialog,
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer) {
     this.requestService = entityServices.getEntityCollectionService('Request');
-    this.requestService.filteredEntities$.subscribe(requests => {
+    this.subs.sink = this.requestService.filteredEntities$.subscribe(requests => {
       console.log('HeaderComponent requestService.filteredEntities$ FILTERED', requests);
     });
-    this.matIconRegistry.addSvgIcon(
-      'account_circle',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../../../assets/images/round-account_circle-24px.svg')
+    this.matIconRegistry.addSvgIcon('account_circle', this.domSanitizer.bypassSecurityTrustResourceUrl('../../../assets/images/round-account_circle-24px.svg')
     );
   }
 
@@ -48,12 +44,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return this.auth.name;
   }
 
+  public get authenticated() {
+    return this.auth.authenticated;
+  }
+
   ngOnInit() {
-    this.login.authenticate()
-      .subscribe(user => {
-        this.displayName = user.displayName;
-      });
-    // this.startNotifications();
+    // this.auth.login();
   }
 
   ngOnDestroy() {
@@ -64,7 +60,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   startNotifications() {
     this.notificationService.start();
     this.notifier = this.notificationService.notifier;
-    this.notifier
+    this.subs.sink = this.notifier
       .pipe(takeUntil(this.notifier))
       .subscribe(notification => {
         this.notification = notification;
@@ -79,20 +75,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // }
 
   loadRequests(event) {
-    this.requestService.getWithQuery({ 'pattern': event.target.value }, { mergeStrategy: MergeStrategy.OverwriteChanges })
+    this.subs.sink = this.requestService.getWithQuery({ 'pattern': event.target.value }, { mergeStrategy: MergeStrategy.OverwriteChanges })
       .subscribe(requests => {
         console.log('HeaderComponent requestService.getWithQuery.subscribe RETRIEVED', requests);
       });
   }
 
-  userModal($event) {
+  userModal() {
     this.dialog.open(LoginComponent, {
-      height: '350px',
-      width: '400px',
+      // height: '300px',
+      // width: '300px',
       closeOnNavigation: true,
       disableClose: false,
+      position: { top: '50px', right: '50px' },
+      // panelClass: 'login-dialog-container'
       // data: {}
     });
+  }
+
+  login() {
+    this.auth.login();
   }
 
   // TODO: add doc documents pages

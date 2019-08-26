@@ -8,11 +8,11 @@ export class Configuration {
       redirectUri: window.location.origin + '/',
     };
   }
-  enableLogging: boolean;
   enableNotifications: boolean;
   webApiBaseUrl: string;
   signalrBaseUrl: string;
   oidcConfig: AuthConfig;
+  discoveryDocumentUrl: string;
 
   public get production() {
     return environment.production;

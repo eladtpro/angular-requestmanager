@@ -12,13 +12,11 @@ export class NotificationService {
   constructor(private config: ConfigurationService) {
     console.log('INITIALIZING SERVICE: NotificationService');
 
-    this.config.subscribe(configuration => {
-      if (!configuration.enableNotifications)
-        return;
+    if (!this.config.configuration.enableNotifications)
+      return;
 
-      this.notificationUrl = configuration.signalrBaseUrl + 'signalr';
-      // this.start();
-    });
+    this.notificationUrl = this.config.configuration.signalrBaseUrl + 'signalr';
+    this.start();
   }
 
   public notifier: Subject<Notification> = new Subject<Notification>();

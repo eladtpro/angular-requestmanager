@@ -1,6 +1,3 @@
-.card {
-  max-width: 400px;
-}
 .login-card {
   font-weight: lighter;
   font-family: 'Segoe UI', SegoeUI, 'Segoe WP', Tahoma, Arial, sans-serif;
@@ -13,16 +10,24 @@
   background-size: cover;
 } */
 
+.manage-profile-settings {
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    border-radius: 0;
+    color: #7bb9e9;
+    height: 16px;
+    margin: 0;
+    padding: 0px 0px 20px 0px;
+}
+
+.mat-divider {
+  border-top-color: gray;
+}
+
 mat-icon {
   width: 48px !important;
   height: 48px !important;
 }
-
-small-mat-icon {
-  width: 24px !important;
-  height: 24px !important;
-}
-
 
 ::ng-deep .mat-input-wrapper{
   font-weight: lighter;

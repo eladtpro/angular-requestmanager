@@ -1,5 +1,4 @@
 {
-  "enableLogging": true,
   "enableNotifications": false,
   "webApiBaseUrl": "http://requestsdemoapi.azurewebsites.net/api",
   "signalrBaseUrl": "http://localhost:8080/requestmanager/api/",

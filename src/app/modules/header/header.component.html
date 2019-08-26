@@ -44,6 +44,11 @@
     </form>
   </span>
   <span>
-    <mat-icon matTooltip="{{ displayName }}" svgIcon="account_circle" (click)="userModal($event)"></mat-icon>
+    <ng-container *ngIf="authenticated">
+        <button mat-mini-fab matTooltip="{{ displayName }}" (click)="userModal()">{{ displayName | login }}</button>
+    </ng-container>
+    <ng-container *ngIf="!authenticated">
+        <button mat-button (click)="login()">Login</button>
+    </ng-container>
   </span>
 </mat-toolbar>

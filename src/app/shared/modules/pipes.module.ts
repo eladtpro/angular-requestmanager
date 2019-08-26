@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { GroupByPipe } from '../pipes/group-by.pipe';
 import { MarkPipe } from '../pipes/mark.pipe';
 import { KeysPipe } from '../pipes/keys.pipe';
 import { MatchPipe } from '../pipes/match.pipe';
 import { TitleCamelCasePipe } from '../pipes/title-camel-case.pipe';
+import { LoginPipe } from '../pipes/login.pipe';
+
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { TitleCamelCasePipe } from '../pipes/title-camel-case.pipe';
     GroupByPipe,
     MarkPipe,
     MatchPipe,
-    TitleCamelCasePipe
+    TitleCamelCasePipe,
+    LoginPipe
   ],
   imports: [
   ],
@@ -21,7 +23,8 @@ import { TitleCamelCasePipe } from '../pipes/title-camel-case.pipe';
     GroupByPipe,
     MarkPipe,
     MatchPipe,
-    TitleCamelCasePipe
+    TitleCamelCasePipe,
+    LoginPipe
   ]
 })
 export class PipesModule {

@@ -58,10 +58,18 @@ button.mat-button {
   font-family: 'Segoe UI', SegoeUI, 'Segoe WP', Tahoma, Arial, sans-serif;
 }
 
-mat-icon {
+.mat-fab {
+  font-size: 32px;
+  /* width: 48px;
+  height: 48px; */
+  font-weight: bolder;
+  font-family: 'Segoe UI', SegoeUI, 'Segoe WP', Tahoma, Arial, sans-serif;
+}
+
+/* .mat-icon {
   width: 48px !important;
   height: 48px !important;
-}
+} */
 
 div.fadein {
   -webkit-animation: fadein 2s;

@@ -3,7 +3,7 @@ import { StoreModule } from '@ngrx/store';
 import { NgModule } from '@angular/core';
 import { DefaultDataServiceConfig, EntityDataModule } from '@ngrx/data';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import {map } from 'rxjs/operators';
+// import {map } from 'rxjs/operators';
 
 import { entityConfig } from './entity-metadata';
 import { environment } from '../../../environments/environment';

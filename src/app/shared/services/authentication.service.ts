@@ -9,22 +9,30 @@ export class AuthenticationService implements OnDestroy {
   // https://www.npmjs.com/package/@azure/msal-angular
   constructor(private oauth: OAuthService, private config: ConfigurationService) {
     console.log('INITIALIZING SERVICE: AuthenticationService');
-
-    this.config.subscribe(cfg => {
-      this.oauth.configure(cfg.oidcConfig);
-      this.oauth.setupAutomaticSilentRefresh();
-      this.oauth.loadDiscoveryDocument('https://b2cpm.onmicrosoft.com/b2cpm.onmicrosoft.com/B2C_1_basic-authentication/v2.0/.well-known/openid-configuration');
-      this.oauth.tryLogin();
-    });
+    this.oauth.configure(this.config.configuration.oidcConfig);
+    this.oauth.setupAutomaticSilentRefresh();
+    this.oauth.loadDiscoveryDocument(this.config.configuration.discoveryDocumentUrl);
+    this.oauth.tryLogin();
   }
 
   // Sample: Get the dispaly name claim
-  public get name() {
+  public get name(): string {
     const claims = this.oauth.getIdentityClaims();
-    if (!claims) {
+    if (!claims)
       return null;
-    }
+
     return claims['name'];
+  }
+
+  public get email(): string {
+    const claims = this.oauth.getIdentityClaims();
+    if (!claims)
+      return null;
+    return claims['emails'];
+  }
+
+  public get authenticated(): boolean {
+    return this.oauth.hasValidAccessToken();
   }
 
   // Sample: Get the access token
@@ -32,24 +40,19 @@ export class AuthenticationService implements OnDestroy {
     return this.oauth.getAccessToken();
   }
 
-  // Sample: Get the access token expiration ticks (numeric)
-  public get tokenExpiration() {
+  // Sample: Get the access token expiration date (in date format)
+  public get tokenExpiration(): Date {
     return new Date(this.oauth.getAccessTokenExpiration());
   }
 
-  // Sample: Get the access token expiration date (in date format)
-  public get tokenExpirationDate() {
-    return this.oauth.getAccessTokenExpiration();
-  }
-
-  // TODO: save token in sessionStorage: StorageSerializer
   // TODO: add HostLitener to 'Enter' key event
-  // TODO: add B2C implementation
-  authenticated = true;
   private subs = new SubSink();
 
   login(): void {
-    this.oauth.initImplicitFlow();
+    console.log('AuthenticationService.login', this.authenticated);
+
+    if (this.authenticated) return;
+    this.oauth.initImplicitFlowInternal();
   }
 
   logout(): void {
@@ -62,6 +65,10 @@ export class AuthenticationService implements OnDestroy {
       return this.oauth.silentRefresh();
     } else
       console.log('Token is still valid');
+  }
+
+  loadUserProfile(): Promise<any> {
+    return this.oauth.loadUserProfile();
   }
 
   ngOnDestroy(): void {

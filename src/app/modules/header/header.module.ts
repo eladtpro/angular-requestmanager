@@ -1,28 +1,32 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+
 import { HeaderComponent } from './header.component';
 import { MaterialModule } from '../../shared/modules/material.module';
-import { CoreModule } from '../../shared/modules/core.module';
 import { SpinnerComponent } from './spinner.component';
 import { ReduxModule } from '../../shared/store/redux.module';
-import { LoginModule } from '../login/login.module';
+import { LoginComponent } from './login/login.component';
+import { PipesModule } from '../../shared/modules/pipes.module';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    CoreModule,
     MaterialModule,
     ReduxModule,
-    LoginModule
+    PipesModule
   ],
   exports: [
     HeaderComponent
+  ],
+  entryComponents: [
+    LoginComponent
   ]
 })
 export class HeaderModule {

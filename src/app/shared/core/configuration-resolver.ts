@@ -12,7 +12,8 @@ export class ConfigurationResolver implements Resolve<Configuration> {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Configuration> {
-    console.log('RESOLVING: ConfigurationService');
-    return this.configService.resolve();
+    // console.log('RESOLVING: ConfigurationService');
+    // return this.configService.resolve();
+    return null;
   }
 }
