@@ -11,6 +11,9 @@ import { MaterialModule } from '../../shared/modules/material.module';
   imports: [
     CommonModule,
     MaterialModule
+  ],
+  entryComponents: [
+    LoginComponent
   ]
 })
 export class LoginModule { }

@@ -1,21 +1,18 @@
-import { environment } from 'src/environments/environment';
-
-export class FirebaseConfiguration {
-  apiKey: string;
-  authDomain: string;
-  databaseURL: string;
-  projectId: string;
-  storageBucket: string;
-  messagingSenderId: string;
-}
+import { environment } from '../../../environments/environment';
+import { AuthConfig } from 'angular-oauth2-oidc';
 
 export class Configuration {
+  constructor() {
+    this.oidcConfig = {
+      // URL of the SPA to redirect the user to after login
+      redirectUri: window.location.origin + '/',
+    };
+  }
   enableLogging: boolean;
   enableNotifications: boolean;
   webApiBaseUrl: string;
   signalrBaseUrl: string;
-  firebaseUrl: string;
-  firebaseConfig: FirebaseConfiguration;
+  oidcConfig: AuthConfig;
 
   public get production() {
     return environment.production;

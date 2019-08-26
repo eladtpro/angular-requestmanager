@@ -8,7 +8,8 @@ import { Observable, of } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LoginService {
-  constructor(private http: HttpService, private storage: Storage) { }
+  constructor(private http: HttpService, private storage: Storage) {
+  }
 
   authenticate(): Observable<User> {
     if (this.storage.contains('user'))
@@ -20,5 +21,9 @@ export class LoginService {
           this.storage.set('user', user);
         })
     );
+  }
+
+  get user(): User {
+    return this.storage.get<User>('user');
   }
 }

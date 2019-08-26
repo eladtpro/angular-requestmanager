@@ -19,8 +19,7 @@ export function initConfiguration(config: ConfigurationService) {
   imports: [
     CommonModule,
     HttpClientModule,
-    RouterModule.forRoot([],
-      { enableTracing: environment.enableTracing })
+    RouterModule.forRoot([], { enableTracing: environment.enableTracing })
   ],
   providers: [
   ]

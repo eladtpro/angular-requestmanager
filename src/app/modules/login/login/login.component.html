@@ -1,19 +1,25 @@
-<form>
-  <mat-card class="login-card">
+<form class="login-card">
+  <mat-card class="card login-card">
     <mat-card-header>
-      <div mat-card-avatar class="login-header-image"></div>
-      <mat-card-title>Login</mat-card-title>
-      <mat-card-subtitle>Enter account details</mat-card-subtitle>
+      <div mat-card-avatar class="login-header-image">
+        <mat-icon matTooltip="{{ user.displayName }}" svgIcon="account_circle"></mat-icon>
+      </div>
+      <mat-card-title>{{ user.displayName }}</mat-card-title>
+      <mat-card-subtitle class="login-card">{{ user.email }}</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+    <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
     <mat-card-content>
-      <mat-form-field>
-        <input matInput type="email" placeholder="Email" aria-label="Email">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="password" placeholder="Password" aria-label="Password">
-      </mat-form-field>
-      <button mat-flat-button type="search">Search</button>
+      <mat-icon matTooltip="Add Account" svgIcon="account_circle"></mat-icon>
+        <button mat-button (click)="toggleForm(true)">Add Account</button>
+      <ng-template #loginform *ngIf="displayForm">
+        <mat-form-field>
+          <input matInput type="email" placeholder="Email" aria-label="Email">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="password" placeholder="Password" aria-label="Password">
+        </mat-form-field>
+        <button mat-flat-button type="search">Login</button>
+      </ng-template>
     </mat-card-content>
     <mat-card-actions>
       <button mat-button>Cancel</button>

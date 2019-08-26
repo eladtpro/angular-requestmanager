@@ -1,8 +1,42 @@
-.login-card {
+.card {
   max-width: 400px;
 }
+.login-card {
+  font-weight: lighter;
+  font-family: 'Segoe UI', SegoeUI, 'Segoe WP', Tahoma, Arial, sans-serif;
+  background: #3b3b3b;
+  color: #fff;
+}
 
-.login-header-image {
+/* .login-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;
+} */
+
+mat-icon {
+  width: 48px !important;
+  height: 48px !important;
+}
+
+small-mat-icon {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+
+::ng-deep .mat-input-wrapper{
+  font-weight: lighter;
+  font-family: 'Segoe UI', SegoeUI, 'Segoe WP', Tahoma, Arial, sans-serif;
+  color: #fff !important;
+}
+
+:host input.md-input-element {
+  font-weight: lighter;
+  font-family: 'Segoe UI', SegoeUI, 'Segoe WP', Tahoma, Arial, sans-serif;
+  color: #fff !important;
+}
+.mat-input-element, span{
+  font-weight: lighter;
+  font-family: 'Segoe UI', SegoeUI, 'Segoe WP', Tahoma, Arial, sans-serif;
+  color: #fff !important;
 }

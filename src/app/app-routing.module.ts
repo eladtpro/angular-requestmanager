@@ -17,8 +17,7 @@ const routes: Routes = [
   },
   {
     path: 'requests',
-    loadChildren: () => import('./modules/requests/requests.module').then(m => m.RequestsModule),
-    // TODO: add guard
+    loadChildren: () => import('./modules/requests/requests.module').then(m => m.RequestsModule)
     // resolve: { resolver: ConfigurationResolver }, canActivate: [AuthenticationGuard]
   },
   { path: '**', redirectTo: 'home' }

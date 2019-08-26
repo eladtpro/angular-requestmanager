@@ -3,5 +3,11 @@ body {
   padding: 0px;
   margin: 0px;
   font-weight: lighter;
-  font-family: 'Segoe UI',SegoeUI,'Segoe WP',Tahoma,Arial,sans-serif;
- }
+  font-family: 'Segoe UI', SegoeUI, 'Segoe WP', Tahoma, Arial, sans-serif;
+}
+
+.mat-dialog-container {
+  padding: 0;
+  background: #3b3b3b !important;
+  color: white !important;
+}

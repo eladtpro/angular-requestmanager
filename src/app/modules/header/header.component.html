@@ -20,9 +20,12 @@
   <span>
     <button mat-button [matMenuTriggerFor]="menu">Documentation</button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.npm]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Npm (Node)</button>
-      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.nuget]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Nuget</button>
-      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.extension]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Extension</button>
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.npm]" [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{exact:true}">Npm (Node)</button>
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.nuget]" [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{exact:true}">Nuget</button>
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.extension]" [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{exact:true}">Extension</button>
     </mat-menu>
   </span>
   <!-- This fills the remaining space of the current row -->
@@ -41,6 +44,6 @@
     </form>
   </span>
   <span>
-    {{ displayName }}
+    <mat-icon matTooltip="{{ displayName }}" svgIcon="account_circle" (click)="userModal($event)"></mat-icon>
   </span>
 </mat-toolbar>

@@ -8,6 +8,10 @@ import { Notification } from '../../shared/model/notification';
 import { EntityServices, EntityCollectionService, MergeStrategy } from '@ngrx/data';
 import { LoginService } from '../login/services/login.service';
 import { PackageTypes } from '../requests/model/package-type';
+import { MatDialog, MatIconRegistry } from '@angular/material';
+import { LoginComponent } from '../login/login/login.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Component({
   selector: 'ms-header',
@@ -15,11 +19,21 @@ import { PackageTypes } from '../requests/model/package-type';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  constructor(entityServices: EntityServices, private notificationService: NotificationService, private login: LoginService) {
+  constructor(entityServices: EntityServices,
+    private notificationService: NotificationService,
+    private login: LoginService,
+    private auth: AuthenticationService,
+    private dialog: MatDialog,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer) {
     this.requestService = entityServices.getEntityCollectionService('Request');
     this.requestService.filteredEntities$.subscribe(requests => {
       console.log('HeaderComponent requestService.filteredEntities$ FILTERED', requests);
     });
+    this.matIconRegistry.addSvgIcon(
+      'account_circle',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../../../assets/images/round-account_circle-24px.svg')
+    );
   }
 
   requestService: EntityCollectionService<Request>;
@@ -29,11 +43,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private notifier: Subject<Notification>;
   notification: Notification;
   PackageTypes = PackageTypes;
-  displayName = 'unknown';
+
+  public get displayName() {
+    return this.auth.name;
+  }
 
   ngOnInit() {
     this.login.authenticate()
-    .subscribe(user => {
+      .subscribe(user => {
         this.displayName = user.displayName;
       });
     // this.startNotifications();
@@ -63,12 +80,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   loadRequests(event) {
     this.requestService.getWithQuery({ 'pattern': event.target.value }, { mergeStrategy: MergeStrategy.OverwriteChanges })
-    .subscribe(requests => {
-      console.log('HeaderComponent requestService.getWithQuery.subscribe RETRIEVED', requests);
+      .subscribe(requests => {
+        console.log('HeaderComponent requestService.getWithQuery.subscribe RETRIEVED', requests);
+      });
+  }
+
+  userModal($event) {
+    this.dialog.open(LoginComponent, {
+      height: '350px',
+      width: '400px',
+      closeOnNavigation: true,
+      disableClose: false,
+      // data: {}
     });
   }
 
-// TODO: add doc documents pages
+  // TODO: add doc documents pages
 
   // reloadData(){
   //   this.requestService.reInitialize(this.dummy.Requests()).subscribe(

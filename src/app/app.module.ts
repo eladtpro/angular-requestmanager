@@ -7,6 +7,9 @@ import { HeaderModule } from './modules/header/header.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './shared/modules/core.module';
 
+// TODO: handle github security alerts:
+// https://github.com/eladtpro/requestmanager-angular/network/alerts
+
 @NgModule({
   declarations: [
     AppComponent

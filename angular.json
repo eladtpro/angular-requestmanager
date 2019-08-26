@@ -28,7 +28,11 @@
               "src/styles.css",
               "src/assets/sass/theme.sass"
             ],
-            "scripts": []
+            "scripts": [
+              {
+                "input": "node_modules/document-register-element/build/document-register-element.js"
+              }
+            ]
           },
           "configurations": {
             "production": {
