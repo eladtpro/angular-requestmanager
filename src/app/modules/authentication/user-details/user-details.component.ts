@@ -2,14 +2,15 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AuthenticationService } from '../../../shared/services/authentication.service';
 
 @Component({
-  selector: 'ms-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'ms-user-details',
+  templateUrl: './user-details.component.html',
+  styleUrls: ['./user-details.component.css']
 })
-export class LoginComponent implements OnInit {
+export class UserDetailsComponent implements OnInit {
 
   constructor(private auth: AuthenticationService) { }
 
+  // TODO: add user profile editing link
   @ViewChild(TemplateRef, { static: true }) loginform: TemplateRef<any>;
   displayName: string;
   email: string;

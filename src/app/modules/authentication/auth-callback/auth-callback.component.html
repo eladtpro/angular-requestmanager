@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-header>
+    <div mat-card-avatar>
+      <mat-icon matTooltip="Please login" svgIcon="error_outline"></mat-icon>
+    </div>
+    <mat-card-title>{{ type | title }}</mat-card-title>
+    <mat-card-subtitle>{{ error | title }}</mat-card-subtitle>
+  </mat-card-header>
+  <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+  <mat-card-content>
+    <!-- <mat-icon matTooltip="Add Account" svgIcon="account_circle"></mat-icon> -->
+    <ul>
+      <li *ngFor="let errorDetail of errorDetails">{{ errorDetail | decode }}.</li>
+    </ul>
+    <p>State: {{ state }}</p>
+    <p>Reason: {{ reason }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button [routerLink]="['/home']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Try Again</button>
+  </mat-card-actions>
+</mat-card>

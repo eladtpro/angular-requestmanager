@@ -29,10 +29,6 @@ span.logo {
   line-height: 46px;
 }
 
-mat-toolbar span {
-  padding-right: 10px;
-}
-
 .mat-toolbar.mat-primary {
   background: #3b3b3b;
   color: #fff;

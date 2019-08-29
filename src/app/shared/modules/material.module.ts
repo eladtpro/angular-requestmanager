@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatIconRegistry } from '@angular/material';
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -31,8 +32,10 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatStepperModule
+  MatStepperModule,
+  MatBadgeModule
 } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @NgModule({
   imports: [
@@ -66,7 +69,8 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatStepperModule
+    MatStepperModule,
+    MatBadgeModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -99,8 +103,14 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatStepperModule
+    MatStepperModule,
+    MatBadgeModule
   ]
 })
 
-export class MaterialModule {}
+export class MaterialModule {
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+    this.matIconRegistry.addSvgIcon('account_circle', this.domSanitizer.bypassSecurityTrustResourceUrl('../../../assets/images/round-account_circle-24px.svg'));
+    this.matIconRegistry.addSvgIcon('error_outline', this.domSanitizer.bypassSecurityTrustResourceUrl('../../../assets/images/error_outline-24px.svg'));
+  }
+}

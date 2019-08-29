@@ -5,14 +5,14 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderModule } from './modules/header/header.module';
 import { AppComponent } from './app.component';
-import { CoreModule } from './shared/modules/core.module';
+import { CoreModule } from './shared/core/core.module';
 
 // TODO: handle github security alerts:
 // https://github.com/eladtpro/requestmanager-angular/network/alerts
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

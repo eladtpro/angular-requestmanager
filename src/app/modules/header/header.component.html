@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <span>
     <div class="img-container">
-      <a href="#" [routerLink]="['home']" [routerLinkActive]="['active']">
+      <a href="#" [routerLink]="['home']" routerLinkActive="mat-accent">
         <ms-spinner></ms-spinner>
       </a>
     </div>
@@ -10,21 +10,26 @@
     Azure
   </span>
   <span>
-    <button mat-button [routerLink]="['home']" [routerLinkActive]="['active']"
-      [routerLinkActiveOptions]="{exact:true}">Home</button>
+    <button mat-button [routerLink]="['home']" routerLinkActive="mat-accent" [routerLinkActiveOptions]="{exact:true}">Home</button>
   </span>
   <span>
-    <button mat-button [routerLink]="['requests']" [routerLinkActive]="['active']"
-      [routerLinkActiveOptions]="{exact:true}">Requests</button>
+    <button mat-button [routerLink]="['requests']" routerLinkActive="mat-accent" [routerLinkActiveOptions]="{exact:true}">
+      <ng-container *ngIf="requestCount > 0">
+        <span matBadge="{{ requestCount }}" matBadgeOverlap="false">Requests</span>
+      </ng-container>
+      <ng-container *ngIf="requestCount <= 0">
+        Requests
+      </ng-container>
+    </button>
   </span>
   <span>
     <button mat-button [matMenuTriggerFor]="menu">Documentation</button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.npm]" [routerLinkActive]="['active']"
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.npm]" routerLinkActive="mat-accent"
         [routerLinkActiveOptions]="{exact:true}">Npm (Node)</button>
-      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.nuget]" [routerLinkActive]="['active']"
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.nuget]" routerLinkActive="mat-accent"
         [routerLinkActiveOptions]="{exact:true}">Nuget</button>
-      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.extension]" [routerLinkActive]="['active']"
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.extension]" routerLinkActive="mat-accent"
         [routerLinkActiveOptions]="{exact:true}">Extension</button>
     </mat-menu>
   </span>
@@ -45,10 +50,10 @@
   </span>
   <span>
     <ng-container *ngIf="authenticated">
-        <button mat-mini-fab matTooltip="{{ displayName }}" (click)="userModal()">{{ displayName | login }}</button>
+      <button mat-mini-fab matTooltip="{{ displayName }}" (click)="userModal()">{{ displayName | login }}</button>
     </ng-container>
     <ng-container *ngIf="!authenticated">
-        <button mat-button (click)="login()">Login</button>
+      <button mat-button (click)="login()">Login</button>
     </ng-container>
   </span>
 </mat-toolbar>

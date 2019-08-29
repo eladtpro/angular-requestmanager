@@ -9,6 +9,7 @@ import { RequestComponent } from '../request/request.component';
 import { Action } from '../../../../shared/model/action';
 import { PackageTypes } from '../../model/package-type';
 import { RequestStatus } from '../../model/request-status';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ms-request-grid',
@@ -18,7 +19,7 @@ import { RequestStatus } from '../../model/request-status';
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestGridComponent implements OnInit {
-  constructor(private requestService: RequestService, private dialog: MatDialog) {
+  constructor(private requestService: RequestService, private dialog: MatDialog, private route: ActivatedRoute) {
     this.requests$ = this.requestService.filteredEntities$;
     this.requestService.entities$.subscribe(requests => {
       this.dataSource = new MatTableDataSource(requests);
@@ -37,7 +38,10 @@ export class RequestGridComponent implements OnInit {
 
   ngOnInit() {
     // TODO: cdk virtual scroll
-    this.getRequests();
+    // this.getRequests(); - requests are being loaded trough RequestResolver
+    this.route.data.subscribe(data => {
+      console.log(+data);
+    });
   }
 
   applyFilter(filter: string) {

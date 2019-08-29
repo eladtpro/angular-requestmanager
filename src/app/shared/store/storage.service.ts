@@ -2,18 +2,27 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class Storage {
+export class StorageService {
+  static get REDIRECT_URL_KEY() {
+    return 'redirect-url';
+  }
+
   private propertyChanged: BehaviorSubject<string> = new BehaviorSubject<string>(null);
 
   get changed(): Observable<string> {
     return this.propertyChanged.asObservable();
   }
 
-  set(key: string, value: any): void {
+  set(key: string, value: any): StorageService {
     const str = JSON.stringify(value);
     sessionStorage.setItem(key, str);
     this.propertyChanged.next(key);
+    return this;
   }
+
+  // get(key: string): string {
+  //   return sessionStorage.getItem(key);
+  // }
 
   get<T>(key: string): T {
     const str = sessionStorage.getItem(key);

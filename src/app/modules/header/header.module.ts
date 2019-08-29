@@ -6,28 +6,25 @@ import { HeaderComponent } from './header.component';
 import { MaterialModule } from '../../shared/modules/material.module';
 import { SpinnerComponent } from './spinner.component';
 import { ReduxModule } from '../../shared/store/redux.module';
-import { LoginComponent } from './login/login.component';
-import { PipesModule } from '../../shared/modules/pipes.module';
+import { PipesModule } from '../../shared/pipes/pipes.module';
+import { AuthenticationModule } from '../authentication/authentication.module';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     SpinnerComponent,
-    LoginComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     MaterialModule,
     ReduxModule,
-    PipesModule
+    PipesModule,
+    AuthenticationModule
   ],
   exports: [
     HeaderComponent
   ],
-  entryComponents: [
-    LoginComponent
-  ]
 })
 export class HeaderModule {
   constructor() {

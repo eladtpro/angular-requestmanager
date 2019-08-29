@@ -3,14 +3,17 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { MaterialModule } from '../../shared/modules/material.module';
+import { NotFoundComponent } from './not-found.component';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent }
+  {path: '', component: HomeComponent },
+  { path: '404', component: NotFoundComponent }
 ];
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    NotFoundComponent,
   ],
   imports: [
     CommonModule,

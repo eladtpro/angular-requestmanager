@@ -2,20 +2,31 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { SubSink } from 'subsink';
 import { OAuthService, OAuthEvent } from 'angular-oauth2-oidc';
 import { ConfigurationService } from './configuration.service';
+import { Configuration } from '../model/configuration';
+import { StorageService } from '../store/storage.service';
 
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService implements OnDestroy {
-  // https://www.npmjs.com/package/@azure/msal-angular
-  constructor(private oauth: OAuthService, private config: ConfigurationService) {
+  constructor(private oauth: OAuthService, private config: ConfigurationService, private storage: StorageService) {
     console.log('INITIALIZING SERVICE: AuthenticationService');
-    this.oauth.configure(this.config.configuration.oidcConfig);
-    this.oauth.setupAutomaticSilentRefresh();
-    this.oauth.loadDiscoveryDocument(this.config.configuration.discoveryDocumentUrl);
-    this.oauth.tryLogin();
   }
 
-  // Sample: Get the dispaly name claim
+  // TODO: add HostLitener to 'Enter' key event
+  private initialized = false;
+  private subs = new SubSink();
+
+  initialize(cfg: Configuration) {
+    if (!cfg || this.initialized)
+      return;
+
+    console.log('SETTING OIDC CONFIGURATION: AuthenticationService', cfg.webApiBaseUrl);
+    this.oauth.configure(cfg.oidcConfig);
+    this.oauth.setupAutomaticSilentRefresh();
+    this.oauth.loadDiscoveryDocument(cfg.discoveryDocumentUrl);
+    this.initialized = true;
+  }
+
   public get name(): string {
     const claims = this.oauth.getIdentityClaims();
     if (!claims)
@@ -45,21 +56,27 @@ export class AuthenticationService implements OnDestroy {
     return new Date(this.oauth.getAccessTokenExpiration());
   }
 
-  // TODO: add HostLitener to 'Enter' key event
-  private subs = new SubSink();
-
   login(): void {
     console.log('AuthenticationService.login', this.authenticated);
+    if (this.authenticated)
+      return;
 
-    if (this.authenticated) return;
-    this.oauth.initImplicitFlowInternal();
+    this.oauth.tryLogin()
+      .catch(err => {
+        this.storage.set('login-error', err);
+        console.error(err);
+      })
+      .then(result => {
+        if (!this.oauth.hasValidAccessToken())
+          this.oauth.initImplicitFlow();
+      });
   }
 
   logout(): void {
     this.oauth.logOut();
   }
   // Sample: Call this function before using the access token, to make sure you have a valid access token
-  getToken(): Promise<OAuthEvent> {
+  silentRefresh(): Promise<OAuthEvent> {
     if (!this.oauth.hasValidAccessToken()) {
       console.log('Refreshing the token');
       return this.oauth.silentRefresh();

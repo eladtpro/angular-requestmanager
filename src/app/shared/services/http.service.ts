@@ -7,7 +7,9 @@ import { ServiceType } from '../enums/service-type';
 @Injectable({ providedIn: 'root' })
 export class HttpService {
   constructor(private http: HttpClient, private config: ConfigurationService) {
-    this.root = this.config.configuration.webApiBaseUrl;
+    this.config.configuration.subscribe(cfg => {
+      this.root = cfg.webApiBaseUrl;
+    });
   }
 
   private root: string = null;

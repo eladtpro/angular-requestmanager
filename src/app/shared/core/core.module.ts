@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { OAuthModule } from 'angular-oauth2-oidc';
 
 import { ConfigurationService } from '../services/configuration.service';
-import { CredentialsInterceptor } from '../services/credentials.interceptor';
+import { AuthenticationInterceptor } from '../services/authentication.interceptor';
 import { environment } from '../../../environments/environment.prod';
 import { SpinnerInterceptor } from '../services/spinner.interceptor';
 
@@ -43,7 +43,7 @@ export class CoreModule {
       providers: [
         ConfigurationService,
         { provide: 'Window', useValue: window },
-        // { provide: HTTP_INTERCEPTORS, useClass: CredentialsInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor,     multi: true },
         { provide: APP_INITIALIZER,   useFactory: initConfiguration,    multi: true,  deps: [ConfigurationService] }
       ]

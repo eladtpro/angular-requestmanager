@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { GroupByPipe } from '../pipes/group-by.pipe';
-import { MarkPipe } from '../pipes/mark.pipe';
-import { KeysPipe } from '../pipes/keys.pipe';
-import { MatchPipe } from '../pipes/match.pipe';
-import { TitleCamelCasePipe } from '../pipes/title-camel-case.pipe';
-import { LoginPipe } from '../pipes/login.pipe';
 
+import { GroupByPipe } from './group-by.pipe';
+import { MarkPipe } from './mark.pipe';
+import { KeysPipe } from './keys.pipe';
+import { MatchPipe } from './match.pipe';
+import { TitleCamelCasePipe } from './title-camel-case.pipe';
+import { LoginPipe } from './login.pipe';
+import { DecodePipe } from './decode.pipe';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { LoginPipe } from '../pipes/login.pipe';
     MarkPipe,
     MatchPipe,
     TitleCamelCasePipe,
-    LoginPipe
+    LoginPipe,
+    DecodePipe
   ],
   imports: [
   ],
@@ -24,7 +26,8 @@ import { LoginPipe } from '../pipes/login.pipe';
     MarkPipe,
     MatchPipe,
     TitleCamelCasePipe,
-    LoginPipe
+    LoginPipe,
+    DecodePipe
   ]
 })
 export class PipesModule {

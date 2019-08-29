@@ -6,16 +6,16 @@ import { createCustomElement } from '@angular/elements';
 import { RequestGridComponent } from './components/request-grid/request-grid.component';
 import { MaterialModule } from '../../shared/modules/material.module';
 import { ReduxModule } from '../../shared/store/redux.module';
-import { ConfigurationResolver } from '../../shared/core/configuration-resolver';
+import { RequestsResolver } from './services/requests.resolver';
 import { RequestComponent } from './components/request/request.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PipesModule } from '../../shared/modules/pipes.module';
+import { PipesModule } from '../../shared/pipes/pipes.module';
 import { DialogsModule } from '../dialogs/dialogs.module';
 import { DocumentationComponent } from './components/documentation/documentation.component';
 import { ExternalContentComponent } from './components/external-content/external-content.component';
 
 const routes: Routes = [
-  { path: '', component: RequestGridComponent },
+  { path: '', component: RequestGridComponent, resolve: {resolver: RequestsResolver} },
   { path: 'new-request', component: RequestComponent },
   { path: 'docs/:type', component: DocumentationComponent }
 ];
@@ -37,8 +37,9 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   providers: [
+    RequestsResolver
   ],
-  entryComponents:[
+  entryComponents: [
     ExternalContentComponent
   ]
 })

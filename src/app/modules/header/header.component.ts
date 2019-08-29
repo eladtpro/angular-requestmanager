@@ -7,10 +7,11 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { Notification } from '../../shared/model/notification';
 import { EntityServices, EntityCollectionService, MergeStrategy } from '@ngrx/data';
 import { PackageTypes } from '../requests/model/package-type';
-import { MatDialog, MatIconRegistry } from '@angular/material';
-import { LoginComponent } from './login/login.component';
-import { DomSanitizer } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material';
+import { UserDetailsComponent } from '../authentication/user-details/user-details.component';
 import { AuthenticationService } from '../../shared/services/authentication.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { ConfigurationService } from '../../shared/services/configuration.service';
 
 @Component({
   selector: 'ms-header',
@@ -18,18 +19,13 @@ import { AuthenticationService } from '../../shared/services/authentication.serv
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  constructor(entityServices: EntityServices,
+  constructor(
+    private entityServices: EntityServices,
     private notificationService: NotificationService,
     private auth: AuthenticationService,
     private dialog: MatDialog,
-    private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer) {
-    this.requestService = entityServices.getEntityCollectionService('Request');
-    this.subs.sink = this.requestService.filteredEntities$.subscribe(requests => {
-      console.log('HeaderComponent requestService.filteredEntities$ FILTERED', requests);
-    });
-    this.matIconRegistry.addSvgIcon('account_circle', this.domSanitizer.bypassSecurityTrustResourceUrl('../../../assets/images/round-account_circle-24px.svg')
-    );
+    private router: Router,
+    private config: ConfigurationService) {
   }
 
   requestService: EntityCollectionService<Request>;
@@ -39,6 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private notifier: Subject<Notification>;
   notification: Notification;
   PackageTypes = PackageTypes;
+  requestCount = 0;
 
   public get displayName() {
     return this.auth.name;
@@ -49,7 +46,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.auth.login();
+    this.config.configuration.subscribe(cfg => {
+      this.requestService = this.entityServices.getEntityCollectionService('Request');
+      this.subs.sink = this.requestService.filteredEntities$.subscribe(requests => {
+        console.log('HeaderComponent requestService.filteredEntities$ FILTERED', requests);
+      });
+
+      this.requestService.count$.subscribe(count => this.requestCount = count);
+    });
+
+    // TODO: popup user for login
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if (event.url.startsWith('/auth'))
+          return;
+
+        this.config.configuration.subscribe(cfg => {
+          this.auth.initialize(cfg);
+        });
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -82,7 +98,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   userModal() {
-    this.dialog.open(LoginComponent, {
+    this.dialog.open(UserDetailsComponent, {
       // height: '300px',
       // width: '300px',
       closeOnNavigation: true,

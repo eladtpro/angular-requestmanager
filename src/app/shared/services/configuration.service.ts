@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {  Subscription, Subject } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Configuration } from '../../shared/model/configuration';
 
@@ -10,12 +10,10 @@ export class ConfigurationService {
     console.log('INITIALIZING SERVICE: ConfigurationService');
   }
 
-  private loaded$ = new Subject<Configuration>();
-  private config: Configuration = null;
-  get configuration(): Configuration { return this.config; }
-
-  subscribe(next?: (value: Configuration) => void, error?: (error: any) => void, complete?: () => void): Subscription {
-    return this.loaded$.subscribe(next, error, complete);
+  // NGRX initialization issue - in case of early access - pre config initialization
+  private config$: ReplaySubject<Configuration> = new ReplaySubject<Configuration>(1);
+  get configuration(): Observable<Configuration>  {
+    return this.config$;
   }
 
   resolve(url: string): Promise<Configuration> {
@@ -24,9 +22,8 @@ export class ConfigurationService {
       .pipe(
         tap(config => {
           console.log('CONFIGURATION LOADED', config);
-          config.oidcConfig.redirectUri = window.location.origin + '/';
-          this.config = config;
-          this.loaded$.next(this.config);
+          config.oidcConfig.redirectUri = window.location.origin + '/auth';
+          this.config$.next(config);
         })
       ).toPromise();
   }
