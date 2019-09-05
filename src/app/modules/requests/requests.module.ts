@@ -17,7 +17,8 @@ import { ExternalContentComponent } from './components/external-content/external
 const routes: Routes = [
   { path: '', component: RequestGridComponent, resolve: {resolver: RequestsResolver} },
   { path: 'new-request', component: RequestComponent },
-  { path: 'docs/:type', component: DocumentationComponent }
+  { path: 'docs/:type', component: DocumentationComponent },
+  { path: 'docs', component: DocumentationComponent }
 ];
 
 @NgModule({

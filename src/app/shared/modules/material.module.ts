@@ -112,5 +112,6 @@ export class MaterialModule {
   constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     this.matIconRegistry.addSvgIcon('account_circle', this.domSanitizer.bypassSecurityTrustResourceUrl('../../../assets/images/round-account_circle-24px.svg'));
     this.matIconRegistry.addSvgIcon('error_outline', this.domSanitizer.bypassSecurityTrustResourceUrl('../../../assets/images/error_outline-24px.svg'));
+    this.matIconRegistry.addSvgIcon('info', this.domSanitizer.bypassSecurityTrustResourceUrl('../../../assets/images/info-24px.svg'));
   }
 }

@@ -15,8 +15,8 @@ export class AuthenticationInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.auth.authenticated && request.url.startsWith(this.webApiBaseUrl))
       request = request.clone({
-        setHeaders: { Authorization: `OpenIdConnect ${this.auth.token}` }
-        // withCredentials: true
+        setHeaders: { Authorization: `OpenIdConnect ${this.auth.token}` },
+        withCredentials: true
       });
 
     return next.handle(request);

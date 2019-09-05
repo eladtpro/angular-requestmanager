@@ -3,10 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthenticationGuard } from './shared/guards/authentication.guard';
 
 const routes: Routes = [
-  {
-    path: '',
-    loadChildren: () => import('./modules/home/home.module').then(h => h.HomeModule)
-  },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {
     path: 'home',
     loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)
@@ -20,8 +17,8 @@ const routes: Routes = [
     loadChildren: () => import('./modules/requests/requests.module').then(r => r.RequestsModule),
     canActivate: [AuthenticationGuard]
   },
-  {path: '404', redirectTo: '/home/404'},
-  // { path: '**', redirectTo: '/404' }
+  { path: '404', redirectTo: '/home/404' },
+  { path: '**', redirectTo: '404' }
 ];
 
 @NgModule({

@@ -1,20 +1,20 @@
 import { Request } from './request';
-import { PackageTypes } from './package-type';
+import { PackageType } from './package-type';
 import { IEntity } from 'src/app/shared/model/ientity';
 
 export class RequestInfo implements IEntity {
-  public get id() {
-    return this.request.id;
+  public get key() {
+    return this.request.key;
   }
   public Key: string;
   // tslint:disable-next-line:no-shadowed-variable
   constructor(public request: Request, public iconUrl?: string, public caption?: string) {
     switch (request.package.type) {
-      case PackageTypes.npm:
+      case PackageType.npm:
         this.iconUrl = '../../../../../assets/images/nodejslogo.png';
         this.caption = 'nodejs package';
         break;
-      case PackageTypes.nuget:
+      case PackageType.nuget:
         this.iconUrl = '../../../../../assets/images/packageDefaultIcon_nuget.png';
         this.caption = 'nuget package';
         break;

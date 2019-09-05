@@ -1,6 +1,6 @@
-import { PackageTypes } from './package-type';
+import { PackageType } from './package-type';
 
 export class Package {
   public name: string;
-  public type: PackageTypes;
+  public type: PackageType;
 }

@@ -35,9 +35,8 @@
       </mat-form-field>
       <mat-form-field class="form-element">
         <mat-label>Package Type</mat-label>
-        <mat-select #selectPackageType formControlName="type" [(value)]="request.package.type"
-          value="request.package.type">
-          <mat-option *ngFor="let val of PacksgeTypesValues" [value]="val">{{ PacksgeTypes[val] }}</mat-option>
+        <mat-select formControlName="type" placeholder="Package Type">
+          <mat-option *ngFor="let pType of PackageTypes | enum" [value]="pType[0]">{{ pType[1] | title}}</mat-option>
         </mat-select>
         <mat-error *ngIf="!packageType.valid && packageType.touched">
           {{ validator.getErrors(packageType) }}

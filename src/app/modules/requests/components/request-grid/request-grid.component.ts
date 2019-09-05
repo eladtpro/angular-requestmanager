@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Pipe } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -7,7 +7,7 @@ import { RequestService } from '../../services/request.service';
 import { Request } from '../../model/request';
 import { RequestComponent } from '../request/request.component';
 import { Action } from '../../../../shared/model/action';
-import { PackageTypes } from '../../model/package-type';
+import { PackageType } from '../../model/package-type';
 import { RequestStatus } from '../../model/request-status';
 import { ActivatedRoute } from '@angular/router';
 
@@ -30,17 +30,17 @@ export class RequestGridComponent implements OnInit {
   AActions = Action;
   requests$: Observable<Request[]>;
   loading$: Observable<boolean>;
-  selected: Request;
-  displayedColumns: string[] = ['id', 'user', 'email', 'packageName', 'packageType', 'status', 'statusChangedOn', 'submittedOn', 'actions'];
+  displayedColumns: string[] = ['key', 'user', 'email', 'packageName', 'packageType', 'status', 'statusChangedOn', 'submittedOn', 'actions'];
   dataSource: MatTableDataSource<Request> = null;
   RequestStatus = RequestStatus;
-  PacksgeTypes = PackageTypes;
+  PacksgeTypes = PackageType;
 
   ngOnInit() {
     // TODO: cdk virtual scroll
-    // this.getRequests(); - requests are being loaded trough RequestResolver
-    this.route.data.subscribe(data => {
-      console.log(+data);
+    // this.getRequests(); // requests are being loaded trough RequestResolver
+    this.route.data.subscribe((data: { resolver: Request[] }) => {
+      console.log(data);
+      this.dataSource = new MatTableDataSource(data.resolver);
     });
   }
 
@@ -50,24 +50,32 @@ export class RequestGridComponent implements OnInit {
 
   getRequests() {
     this.requestService.getAll();
-    this.close();
   }
 
   modalRequest(request: Request, action: Action) {
-    this.requestService.dialogRef = this.dialog.open(RequestComponent, {
+    this.dialog.open(RequestComponent, {
       height: '600px',
       width: '400px',
       closeOnNavigation: true,
       disableClose: false,
-      data: { request: request, action }
-    });
-
-    this.requestService.dialogRef
-      .afterClosed()
-      .subscribe((id) => this.getRequests());
-  }
-
-  close() {
-    this.selected = null;
+      data: { request: request, action: action }
+    }).afterClosed()
+      .subscribe((result: Request) => {
+        if (!result) return;
+        switch (action) {
+          case Action.Add:
+            this.requestService.add(result).subscribe(req => this.getRequests());
+            break;
+          case Action.Modify:
+            this.requestService.update(result).subscribe(req => this.getRequests());
+            break;
+          case Action.Delete:
+            this.requestService.delete(result.key.toString()).subscribe(req => this.getRequests());
+            break;
+          default:
+            throwError('Action required');
+            break;
+        }
+      });
   }
 }

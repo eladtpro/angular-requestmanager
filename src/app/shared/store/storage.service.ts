@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
+import { StorageKeys } from './storage-keys';
 
 @Injectable({ providedIn: 'root' })
 export class StorageService {
-  static get REDIRECT_URL_KEY() {
-    return 'redirect-url';
-  }
+  static readonly Keys: StorageKeys = new StorageKeys();
 
-  private propertyChanged: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  private propertyChanged: ReplaySubject<string> = new ReplaySubject<string>(1);
 
   get changed(): Observable<string> {
     return this.propertyChanged.asObservable();
@@ -20,13 +19,15 @@ export class StorageService {
     return this;
   }
 
-  // get(key: string): string {
-  //   return sessionStorage.getItem(key);
-  // }
+  getString(key: string): string {
+    return sessionStorage.getItem(key);
+  }
 
-  get<T>(key: string): T {
+  get<T>(key: string, remove?: boolean): T {
     const str = sessionStorage.getItem(key);
     const obj = JSON.parse(str);
+    if (remove)
+      this.remove(key);
     return obj as T;
   }
 
@@ -39,11 +40,4 @@ export class StorageService {
     const str = sessionStorage.getItem(key);
     return (null != str);
   }
-
-  // get<T>(type: (new () => T), key?: string): T {
-  //   const storageKey = key ? key : type.name;
-  //   const str = sessionStorage.getItem(storageKey);
-  //   const obj = JSON.parse(str);
-  //   return Object.assign(new type(), obj);
-  // }
 }

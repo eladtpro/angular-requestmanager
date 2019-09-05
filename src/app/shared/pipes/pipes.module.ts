@@ -7,6 +7,7 @@ import { MatchPipe } from './match.pipe';
 import { TitleCamelCasePipe } from './title-camel-case.pipe';
 import { LoginPipe } from './login.pipe';
 import { DecodePipe } from './decode.pipe';
+import { EnumSelectPipe } from './enum-select.pipe';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { DecodePipe } from './decode.pipe';
     MatchPipe,
     TitleCamelCasePipe,
     LoginPipe,
-    DecodePipe
+    DecodePipe,
+    EnumSelectPipe
   ],
   imports: [
   ],
@@ -27,7 +29,8 @@ import { DecodePipe } from './decode.pipe';
     MatchPipe,
     TitleCamelCasePipe,
     LoginPipe,
-    DecodePipe
+    DecodePipe,
+    EnumSelectPipe
   ]
 })
 export class PipesModule {

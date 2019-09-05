@@ -15,7 +15,7 @@
   <span>
     <button mat-button [routerLink]="['requests']" routerLinkActive="mat-accent" [routerLinkActiveOptions]="{exact:true}">
       <ng-container *ngIf="requestCount > 0">
-        <span matBadge="{{ requestCount }}" matBadgeOverlap="false">Requests</span>
+        <span matBadge="{{ requestCount }}"  matTooltip="{{ requestCount }} pending requests" matBadgeOverlap="false">Requests</span>
       </ng-container>
       <ng-container *ngIf="requestCount <= 0">
         Requests
@@ -25,12 +25,10 @@
   <span>
     <button mat-button [matMenuTriggerFor]="menu">Documentation</button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.npm]" routerLinkActive="mat-accent"
-        [routerLinkActiveOptions]="{exact:true}">Npm (Node)</button>
-      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.nuget]" routerLinkActive="mat-accent"
-        [routerLinkActiveOptions]="{exact:true}">Nuget</button>
-      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.extension]" routerLinkActive="mat-accent"
-        [routerLinkActiveOptions]="{exact:true}">Extension</button>
+      <button mat-menu-item [routerLink]="['requests/docs']" routerLinkActive="mat-accent" [routerLinkActiveOptions]="{exact:true}">Active</button>
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.npm]" routerLinkActive="active">Npm (Node)</button>
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.nuget]" routerLinkActive="active">Nuget</button>
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.vs_extension]" routerLinkActive="active">Extension</button>
     </mat-menu>
   </span>
   <!-- This fills the remaining space of the current row -->

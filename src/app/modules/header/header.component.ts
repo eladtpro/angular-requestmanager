@@ -6,12 +6,12 @@ import { SubSink } from 'subsink';
 import { NotificationService } from '../../shared/services/notification.service';
 import { Notification } from '../../shared/model/notification';
 import { EntityServices, EntityCollectionService, MergeStrategy } from '@ngrx/data';
-import { PackageTypes } from '../requests/model/package-type';
+import { PackageType } from '../requests/model/package-type';
 import { MatDialog } from '@angular/material';
 import { UserDetailsComponent } from '../authentication/user-details/user-details.component';
 import { AuthenticationService } from '../../shared/services/authentication.service';
-import { Router, NavigationEnd } from '@angular/router';
 import { ConfigurationService } from '../../shared/services/configuration.service';
+import { SignupComponent } from '../authentication/signup/signup.component';
 
 @Component({
   selector: 'ms-header',
@@ -24,7 +24,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private auth: AuthenticationService,
     private dialog: MatDialog,
-    private router: Router,
     private config: ConfigurationService) {
   }
 
@@ -34,7 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // @ViewChild('notificationAlert') notificationAlert: TemplateRef<Notification>;
   private notifier: Subject<Notification>;
   notification: Notification;
-  PackageTypes = PackageTypes;
+  PackageTypes = PackageType;
   requestCount = 0;
 
   public get displayName() {
@@ -47,24 +46,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.config.configuration.subscribe(cfg => {
+      this.auth.initialize(cfg);
       this.requestService = this.entityServices.getEntityCollectionService('Request');
       this.subs.sink = this.requestService.filteredEntities$.subscribe(requests => {
         console.log('HeaderComponent requestService.filteredEntities$ FILTERED', requests);
       });
 
       this.requestService.count$.subscribe(count => this.requestCount = count);
-    });
-
-    // TODO: popup user for login
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        if (event.url.startsWith('/auth'))
-          return;
-
-        this.config.configuration.subscribe(cfg => {
-          this.auth.initialize(cfg);
-        });
-      }
     });
   }
 
@@ -99,8 +87,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   userModal() {
     this.dialog.open(UserDetailsComponent, {
-      // height: '300px',
-      // width: '300px',
       closeOnNavigation: true,
       disableClose: false,
       position: { top: '50px', right: '50px' },
@@ -110,7 +96,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.auth.login();
+    this.dialog.open(SignupComponent, {
+      closeOnNavigation: true,
+      disableClose: false
+    });
   }
 
   // TODO: add doc documents pages
@@ -122,9 +111,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
   //       this.requestService.requestLoader.next(currentQuery);
   //     }
   //   );
-  // }
-
-  // showModal(){
-  //   this.modal.show(new ActionInfo(Action.Add, 'New Request'));
   // }
 }

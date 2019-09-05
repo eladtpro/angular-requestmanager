@@ -14,10 +14,8 @@ import { SpinnerInterceptor } from '../services/spinner.interceptor';
 export function initConfiguration(config: ConfigurationService) {
   if (!environment.enableTracing) {
     console.warn(`console.log TERMINATED: environment.enableTracing=${environment.enableTracing}`);
-
-    console.log = function (message?: any, ...optionalParams: any[]): void { };
+    console.log = function (_message?: any, ..._optionalParams: any[]): void { /* do nothing */ };
   }
-
   return () => config.resolve(environment.configFile);
 }
 
@@ -43,9 +41,9 @@ export class CoreModule {
       providers: [
         ConfigurationService,
         { provide: 'Window', useValue: window },
-        { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor,     multi: true },
-        { provide: APP_INITIALIZER,   useFactory: initConfiguration,    multi: true,  deps: [ConfigurationService] }
+        { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor,    multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor,           multi: true },
+        { provide: APP_INITIALIZER, useFactory: initConfiguration,            multi: true,  deps: [ConfigurationService] }
       ]
     };
   }

@@ -5,16 +5,13 @@ import { throwError } from 'rxjs';
 import { Action } from '../../../../shared/model/action';
 import { Request } from '../../model/request';
 import { Package } from '../../model/package';
-import { PackageTypes } from '../../model/package-type';
-import { RequestService } from '../../services/request.service';
+import { PackageType } from '../../model/package-type';
 import { RequestStatus } from '../../model/request-status';
 import { DistributionType } from '../../model/distribution-type';
-import { Guid } from '../../../../shared/model/guid';
 import { Validator } from '../../../../shared/core/validator';
-import { ActivatedRoute } from '@angular/router';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationComponent } from '../../../dialogs/confirmation.component';
-
+import { AuthenticationService } from '../../../../shared/services/authentication.service';
 
 @Component({
   selector: 'ms-request',
@@ -22,8 +19,11 @@ import { ConfirmationComponent } from '../../../dialogs/confirmation.component';
   styleUrls: ['./request.component.css']
 })
 export class RequestComponent implements OnInit {
-  constructor(private formBuilder: FormBuilder, private requestService: RequestService, private route: ActivatedRoute,
-    private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: { request: Request, action: Action }) {
+  constructor(private formBuilder: FormBuilder,
+    private dialog: MatDialog,
+    private dialogRef: MatDialogRef<RequestComponent>,
+    private auth: AuthenticationService,
+    @Inject(MAT_DIALOG_DATA) data: { request: Request, action: Action }) {
     this.action = data.action;
     this.request = data.request ? data.request : this.getDefaultRequest();
   }
@@ -35,10 +35,7 @@ export class RequestComponent implements OnInit {
   validator: Validator;
 
   AActions = Action;
-  PacksgeTypes = PackageTypes;
-  PacksgeTypesValues: string[] = Object.values(PackageTypes).filter(Number);
-  @ViewChild(ElementRef, { static: false }) selectPackageType: ElementRef;
-
+  PackageTypes = PackageType;
 
   get user() { return this.requestForm.get('user') as FormControl; }
   get email() { return this.requestForm.get('email') as FormControl; }
@@ -52,8 +49,8 @@ export class RequestComponent implements OnInit {
 
   initializeForm() {
     this.requestForm = this.formBuilder.group({
-      user: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(50), this.validateUsername]],
-      email: [null, [Validators.required, Validators.email]],
+      user: [{ value: this.request.user, disabled: true }, [Validators.required/*, Validators.minLength(5), Validators.maxLength(50), this.validateUsername*/]],
+      email: [{ value: this.request.email, disabled: true }, [Validators.required/*, Validators.email*/]],
       package: this.formBuilder.group({
         name: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(128)]],
         type: [null, Validators.required]
@@ -72,38 +69,29 @@ export class RequestComponent implements OnInit {
     Object.keys(this.requestForm.value).forEach(key => this.request[key] = this.requestForm.value[key]); // bind form data
     switch (this.action) {
       case Action.Add:
-        this.requestService.add(this.request).subscribe(req => {
-          this.requestService.getAll();
-        });
-        break;
       case Action.Modify:
-        this.requestService.update(this.request);
+        this.close(this.action);
         break;
       case Action.Delete:
-        const dialogRef = this.dialog.open(ConfirmationComponent, {
+        this.dialog.open(ConfirmationComponent, {
           data: {
             message: `Are you sure to delete package ${this.request.package.name}?`,
-            buttonText: {
-              ok: 'Yes',
-              cancel: 'No'
-            }
+            buttonText: { ok: 'Yes', cancel: 'Cancel' }
           }
-        });
-
-        dialogRef.afterClosed().subscribe((confirmed: boolean) => {
-          if (confirmed)
-            this.requestService.delete(this.request.id);
-        });
-
-
-        // if (confirm('Are you sure to delete package ' + this.request.package.name))
-        //   this.requestService.delete(this.request.id);
+        })
+          .afterClosed().subscribe((confirmed: boolean) => {
+            if (confirmed)
+              this.close(this.action);
+          });
         break;
       default:
         throwError('Action required');
         break;
     }
-    this.requestService.dialogRef.close(this.request.id);
+  }
+
+  private close(action: Action) {
+    this.dialogRef.close(this.request);
   }
 
   private validateUsername(control: AbstractControl) {
@@ -113,13 +101,24 @@ export class RequestComponent implements OnInit {
 
   private getDefaultRequest(): Request {
     const request = new Request();
+    request.user = this.auth.name,
+      request.email = this.auth.email;
+    request.key = this.newGuid();
     request.package = new Package();
-    request.package.type = PackageTypes.npm;
+    request.package.type = PackageType.npm;
     request.submittedOn = new Date();
     request.statusChangedOn = new Date();
     request.status = RequestStatus.Pending;
-    request.correlationKey = Guid.newGuid();
     request.distribution = DistributionType.Broadcust;
     return request;
   }
+
+  private newGuid(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      // tslint:disable-next-line:no-bitwise
+      const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
 }

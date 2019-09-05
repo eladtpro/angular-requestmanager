@@ -13,9 +13,8 @@ export class AlertComponent {
     private dialogRef: MatDialogRef<AlertComponent>) {
     if (data) {
       this.message = data.message || this.message;
-      if (data.buttonText) {
+      if (data.buttonText)
         this.cancelButtonText = data.buttonText.cancel || this.cancelButtonText;
-      }
     }
     this.dialogRef.updateSize('300vw', '300vw');
   }

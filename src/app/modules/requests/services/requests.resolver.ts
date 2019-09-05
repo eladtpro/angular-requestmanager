@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { EntityCollectionService, EntityServices } from '@ngrx/data';
 
 @Injectable()
-export class RequestsResolver implements Resolve<number> {
+export class RequestsResolver implements Resolve<Request[]> {
   constructor(entityServices: EntityServices) {
     console.log('INITIALIZING RESOLVER: RequestsResolver');
     this.requestService = entityServices.getEntityCollectionService('Request');
@@ -13,9 +13,8 @@ export class RequestsResolver implements Resolve<number> {
 
   requestService: EntityCollectionService<Request>;
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<number> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Request[]> {
     console.log('RESOLVING: RequestsResolver');
-    this.requestService.getAll();
-    return this.requestService.count$;
+    return this.requestService.getAll();
   }
 }
