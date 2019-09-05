@@ -13,7 +13,7 @@ import { SpinnerInterceptor } from '../services/spinner.interceptor';
 
 export function initConfiguration(config: ConfigurationService) {
   if (!environment.enableTracing) {
-    console.warn(`console.log TERMINATED: environment.enableTracing=${environment.enableTracing}`);
+    console.warn(`console.logging TERMINATED: environment.enableTracing=${environment.enableTracing}`);
     console.log = function (_message?: any, ..._optionalParams: any[]): void { /* do nothing */ };
   }
   return () => config.resolve(environment.configFile);
@@ -31,10 +31,6 @@ export function initConfiguration(config: ConfigurationService) {
   ]
 })
 export class CoreModule {
-  constructor() {
-    console.log('LOADING MODULE: CoreModule');
-  }
-
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule,

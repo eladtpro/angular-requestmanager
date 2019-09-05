@@ -10,6 +10,5 @@ import { Request } from '../model/request';
 export class RequestService extends EntityCollectionServiceBase<Request> {
   constructor(serviceElementFactory: EntityCollectionServiceElementsFactory) {
     super('Request', serviceElementFactory);
-    console.log('INITIALIZING SERVICE: RequestService');
   }
 }

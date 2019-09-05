@@ -10,8 +10,6 @@ import { Subject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
   constructor(private config: ConfigurationService) {
-    console.log('INITIALIZING SERVICE: NotificationService');
-
     this.config.configuration.subscribe(cfg => {
       if (!cfg.enableNotifications)
         return;

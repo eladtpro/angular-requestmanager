@@ -6,9 +6,7 @@ import { Configuration } from '../../shared/model/configuration';
 
 @Injectable()
 export class ConfigurationService {
-  constructor(private http: HttpClient) {
-    console.log('INITIALIZING SERVICE: ConfigurationService');
-  }
+  constructor(private http: HttpClient) { }
 
   // NGRX initialization issue - in case of early access - pre config initialization
   private config$: ReplaySubject<Configuration> = new ReplaySubject<Configuration>(1);
@@ -17,11 +15,9 @@ export class ConfigurationService {
   }
 
   resolve(url: string): Promise<Configuration> {
-    console.log('EXECUTING SERVICE: ConfigurationService.load');
     return this.http.get<Configuration>(url)
       .pipe(
         tap(config => {
-          console.log('CONFIGURATION LOADED', config);
           config.oidcConfig.redirectUri = window.location.origin + '/auth';
           this.config$.next(config);
         })

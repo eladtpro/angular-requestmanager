@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HeaderModule } from './modules/header/header.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './shared/core/core.module';
+import { HelpComponent } from './modules/help/help.component';
 
 // TODO: handle github security alerts:
 // https://github.com/eladtpro/requestmanager-angular/network/alerts
@@ -13,6 +14,7 @@ import { CoreModule } from './shared/core/core.module';
 @NgModule({
   declarations: [
     AppComponent,
+    HelpComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,8 +27,4 @@ import { CoreModule } from './shared/core/core.module';
   ],
    bootstrap: [AppComponent]
 })
-export class AppModule {
-  constructor() {
-    console.log('LOADING MODULE: AppModule');
-  }
-}
+export class AppModule { }

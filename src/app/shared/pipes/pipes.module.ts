@@ -33,8 +33,4 @@ import { EnumSelectPipe } from './enum-select.pipe';
     EnumSelectPipe
   ]
 })
-export class PipesModule {
-  constructor() {
-    console.log('LOADING MODULE: PipesModule');
-  }
-}
+export class PipesModule { }

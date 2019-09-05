@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRouteSnapshot } from '@angular/router';
 import { StorageService } from 'src/app/shared/store/storage.service';
 import { OAuthErrorEvent, EventType } from 'angular-oauth2-oidc';
@@ -8,12 +8,8 @@ import { OAuthErrorEvent, EventType } from 'angular-oauth2-oidc';
   templateUrl: './auth-callback.component.html',
   styleUrls: ['./auth-callback.component.css']
 })
-export class AuthCallbackComponent implements OnInit {
-  constructor(private router: Router, private storage: StorageService) {
-    this.router.routeReuseStrategy.shouldReuseRoute = function (future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
-      return (future.fragment === curr.fragment);
-    };
-  }
+export class AuthCallbackComponent implements OnInit, AfterViewInit {
+  constructor(private storage: StorageService) { }
 
   error: string;
   errorDetails: string[];
@@ -35,11 +31,8 @@ export class AuthCallbackComponent implements OnInit {
       }
       return;
     }
+  }
 
-    let redirectUrl: string;
-    if (this.storage.contains(StorageService.Keys.REDIRECT_URL_KEY))
-      redirectUrl = this.storage.get<string>(StorageService.Keys.REDIRECT_URL_KEY, true);
-
-    this.router.navigateByUrl(redirectUrl || '/');
+  ngAfterViewInit() {
   }
 }

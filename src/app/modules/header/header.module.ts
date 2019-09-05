@@ -26,8 +26,4 @@ import { AuthenticationModule } from '../authentication/authentication.module';
     HeaderComponent
   ],
 })
-export class HeaderModule {
-  constructor() {
-    console.log('LOADING MODULE: HomeModule');
-  }
-}
+export class HeaderModule { }

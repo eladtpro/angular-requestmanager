@@ -33,8 +33,4 @@ const RUNTIME_CHECKS = false;
     ]
 })
 
-export class ReduxModule {
-  constructor() {
-    console.log('LOADING MODULE: ReduxModule');
-  }
-}
+export class ReduxModule { }

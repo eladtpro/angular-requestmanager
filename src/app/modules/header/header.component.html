@@ -31,6 +31,9 @@
       <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.vs_extension]" routerLinkActive="active">Extension</button>
     </mat-menu>
   </span>
+  <span>
+    <button mat-button [routerLink]="['help']" routerLinkActive="mat-accent" [routerLinkActiveOptions]="{exact:true}">Help</button>
+  </span>
   <!-- This fills the remaining space of the current row -->
   <span class="fill-remaining-space">
     <ng-template #notificationAlert [ngIf]="this.notification">

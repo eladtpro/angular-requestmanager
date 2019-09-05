@@ -15,7 +15,7 @@ export class DocumentationComponent implements OnInit {
   packageUrls: { [key in PackageType]?: SafeResourceUrl } = {
     [PackageType.npm]: this.sanitizer.bypassSecurityTrustResourceUrl('https://docs.npmjs.com/about-npm'),
     [PackageType.nuget]: this.sanitizer.bypassSecurityTrustResourceUrl('https://docs.microsoft.com/en-us/nuget/what-is-nuget'),
-    [PackageType.extension]: this.sanitizer.bypassSecurityTrustResourceUrl('https://code.visualstudio.com/docs/editor/extension-gallery')
+    [PackageType.vs_extension]: this.sanitizer.bypassSecurityTrustResourceUrl('https://code.visualstudio.com/docs/editor/extension-gallery')
   };
 
   ngOnInit() {

@@ -45,9 +45,7 @@ const routes: Routes = [
   ]
 })
 export class RequestsModule {
-  constructor(private injector: Injector) {
-    console.log('LOADING MODULE: RequestsModule');
-  }
+  constructor(private injector: Injector) { }
 
   ngDoBootstrap() {
     const tileCE = createCustomElement(ExternalContentComponent, { injector: this.injector });

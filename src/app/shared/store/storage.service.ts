@@ -25,6 +25,8 @@ export class StorageService {
 
   get<T>(key: string, remove?: boolean): T {
     const str = sessionStorage.getItem(key);
+    if (!str)
+      return null;
     const obj = JSON.parse(str);
     if (remove)
       this.remove(key);

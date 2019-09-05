@@ -21,8 +21,4 @@ const routes: Routes = [
     MaterialModule
   ]
 })
-export class HomeModule {
-  constructor() {
-    console.log('LOADING MODULE: HomeModule');
-  }
- }
+export class HomeModule { }

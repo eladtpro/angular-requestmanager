@@ -33,8 +33,4 @@ const routes: Routes = [
     UserDetailsComponent
   ]
 })
-export class AuthenticationModule {
-  constructor() {
-    console.log('LOADING MODULE: AuthenticationModule');
-  }
-}
+export class AuthenticationModule { }

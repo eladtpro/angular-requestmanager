@@ -1,25 +1,20 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { SubSink } from 'subsink';
-import { OAuthService, OAuthEvent } from 'angular-oauth2-oidc';
+import { OAuthService, OAuthEvent, OAuthSuccessEvent } from 'angular-oauth2-oidc';
 import { Configuration } from '../model/configuration';
 import { StorageService } from '../store/storage.service';
 import { Router, NavigationEnd, RouterStateSnapshot } from '@angular/router';
-
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService implements OnDestroy {
   constructor(
     private oauth: OAuthService,
     private storage: StorageService,
-    private router: Router) {
-    console.log('INITIALIZING SERVICE: AuthenticationService');
-  }
+    private router: Router) { }
 
   // TODO: add HostLitener to 'Enter' key event
   private subs = new SubSink();
   initialize(cfg: Configuration) {
-    console.log('SETTING OIDC CONFIGURATION: AuthenticationService', cfg.webApiBaseUrl);
-
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd)
         this.storage.set(StorageService.Keys.LAST_URL_KEY, this.router.routerState.snapshot.url);
@@ -37,15 +32,25 @@ export class AuthenticationService implements OnDestroy {
           console.error(err);
         }));
     this.subs.sink = this.oauth.events.subscribe((event: OAuthEvent) => {
-      console.log(event);
+      console.log(new Date(), event);
       // TODO: show notifications
       switch (event.type) {
         case 'discovery_document_loaded':
+          const success = event as OAuthSuccessEvent;
+          if (success.info) {
+            const loggedOut = this.storage.get<boolean>('logged-out', true);
+            if (loggedOut)
+              this.router.navigateByUrl('/home');
+          }
           break;
         case 'token_received':
+          let redirectUrl: string;
+          if (this.storage.contains(StorageService.Keys.REDIRECT_URL_KEY))
+            redirectUrl = this.storage.get<string>(StorageService.Keys.REDIRECT_URL_KEY, true);
+          this.router.navigateByUrl(redirectUrl || '/home');
           break;
         case 'logout':
-          this.storage.set(StorageService.Keys.REDIRECT_URL_KEY, '/');
+          this.storage.set('logged-out', true);
           break;
         default:
           break;
@@ -70,6 +75,14 @@ export class AuthenticationService implements OnDestroy {
     return claims['emails'];
   }
 
+  public get newUser(): string {
+    const claims = this.oauth.getIdentityClaims();
+    if (!claims)
+      return null;
+
+    return claims['newUser'];
+  }
+
   public get authenticated(): boolean {
     return (this.oauth.hasValidIdToken() && this.oauth.hasValidAccessToken());
   }
@@ -85,23 +98,12 @@ export class AuthenticationService implements OnDestroy {
   }
 
   login(): void {
-    console.log('AuthenticationService.login', this.authenticated);
-    if (this.authenticated)
-      return;
-
+    if (this.authenticated) return;
     this.oauth.initImplicitFlow();
   }
 
   logout(): void {
     this.oauth.logOut();
-  }
-  // Sample: Call this function before using the access token, to make sure you have a valid access token
-  silentRefresh(): Promise<OAuthEvent> {
-    if (!this.oauth.hasValidAccessToken()) {
-      console.log('Refreshing the token');
-      return this.oauth.silentRefresh();
-    } else
-      console.log('Token is still valid');
   }
 
   loadUserProfile(): Promise<any> {

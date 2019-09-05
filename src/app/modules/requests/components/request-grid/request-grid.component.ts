@@ -23,7 +23,6 @@ export class RequestGridComponent implements OnInit {
     this.requests$ = this.requestService.filteredEntities$;
     this.requestService.entities$.subscribe(requests => {
       this.dataSource = new MatTableDataSource(requests);
-      console.log('RequestGridComponent requestService.entities$ CHANGED', requests);
     });
   }
 
@@ -39,7 +38,6 @@ export class RequestGridComponent implements OnInit {
     // TODO: cdk virtual scroll
     // this.getRequests(); // requests are being loaded trough RequestResolver
     this.route.data.subscribe((data: { resolver: Request[] }) => {
-      console.log(data);
       this.dataSource = new MatTableDataSource(data.resolver);
     });
   }
