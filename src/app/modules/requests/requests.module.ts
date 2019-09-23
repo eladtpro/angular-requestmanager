@@ -13,6 +13,8 @@ import { PipesModule } from '../../shared/pipes/pipes.module';
 import { DialogsModule } from '../dialogs/dialogs.module';
 import { DocumentationComponent } from './components/documentation/documentation.component';
 import { ExternalContentComponent } from './components/external-content/external-content.component';
+import { NpmService } from './services/npm.service';
+import { SpinnerModule } from 'src/app/shared/modules/spinner/spinner.module';
 
 const routes: Routes = [
   { path: '', component: RequestGridComponent, resolve: {resolver: RequestsResolver} },
@@ -35,9 +37,11 @@ const routes: Routes = [
     ReduxModule,
     PipesModule,
     DialogsModule,
+    SpinnerModule,
     RouterModule.forChild(routes)
   ],
   providers: [
+    NpmService,
     RequestsResolver
   ],
   entryComponents: [

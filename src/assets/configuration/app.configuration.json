@@ -1,6 +1,7 @@
 {
   "enableNotifications": false,
   "webApiBaseUrl": "http://localhost:27527/api",
+  "npmRepositoryUrl": "https://api.npms.io/v2/search",
   "signalrBaseUrl": "http://localhost:8080/requestmanager/api/",
   "oidcConfig": {
     "issuer": "https://login.microsoftonline.com/03a0f57d-d561-42fe-a38b-cd46ed17d941/v2.0/",

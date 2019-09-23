@@ -24,15 +24,33 @@
         {{ validator.getErrors(email) }}
       </mat-error>
     </mat-form-field>
-
     <div formGroupName="package">
-      <mat-form-field class="form-element">
-        <mat-label>Package Name</mat-label>
-        <input matInput placeholder="Packege[@Version]" formControlName="name">
-        <mat-error *ngIf="!packageName.valid && packageName.touched">
-          {{ validator.getErrors(packageName) }}
-        </mat-error>
-      </mat-form-field>
+      <div style="width:80%; float:left;">
+        <mat-form-field class="form-element">
+          <mat-label>Package Name</mat-label>
+          <input matInput formControlName="name" type="text" placeholder="packageName" matInput [matAutocomplete]="auto">
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="packageSelected($event)">
+            <mat-option *ngIf="loading" class="is-loading">
+                <ms-spinner></ms-spinner>
+            </mat-option>
+            <mat-option *ngFor="let pkg of npmAutocomplete$ | async; let index=index" [value]="pkg.package.name" [id]="pkg.package.version" matTooltip="{{ pkg.package.description }}" [matTooltipPosition]="'before'" >
+              <span>{{ pkg.package.name }}</span><small> [@{{ pkg.package.version }}]</small>
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="!packageName.valid && packageName.touched">
+            {{ validator.getErrors(packageName) }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div style="width:20%; float:right;">
+        <mat-form-field class="form-element">
+          <mat-label>Version</mat-label>
+          <input matInput placeholder="Version" formControlName="version">
+          <mat-error *ngIf="!packageVersion.valid && packageVersion.touched">
+            {{ validator.getErrors(packageVersion) }}
+          </mat-error>
+        </mat-form-field>
+      </div>
       <mat-form-field class="form-element">
         <mat-label>Package Type</mat-label>
         <mat-select formControlName="type" placeholder="Package Type">
@@ -50,12 +68,9 @@
       </mat-grid-tile>
       <mat-grid-tile></mat-grid-tile>
       <mat-grid-tile [ngSwitch]="action">
-        <button mat-raised-button *ngSwitchCase="AActions.Add" color="primary" type="submit" class="button"
-          [disabled]="!requestForm.valid">Submit</button>
-        <button mat-raised-button *ngSwitchCase="AActions.Modify" color="primary" type="submit" class="button"
-          [disabled]="!requestForm.valid">Update</button>
-        <button mat-raised-button *ngSwitchCase="AActions.Delete" color="warn" type="submit" class="button"
-          [disabled]="!requestForm.valid">Delete</button>
+        <button mat-raised-button *ngSwitchCase="AActions.Add" color="primary" type="submit" class="button" [disabled]="!requestForm.valid">Submit</button>
+        <button mat-raised-button *ngSwitchCase="AActions.Modify" color="primary" type="submit" class="button" [disabled]="!requestForm.valid">Update</button>
+        <button mat-raised-button *ngSwitchCase="AActions.Delete" color="warn" type="submit" class="button" [disabled]="!requestForm.valid">Delete</button>
         <span *ngSwitchDefault>N\A</span>
       </mat-grid-tile>
     </mat-grid-list>

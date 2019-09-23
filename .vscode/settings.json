@@ -1,5 +1,17 @@
 {
     "workbench.colorCustomizations": {},
     "javascript.preferences.importModuleSpecifier": "relative",
-    "javascript.preferences.quoteStyle": "single"
+    "javascript.preferences.quoteStyle": "single",
+    "cSpell.words": [
+        "azurelogo",
+        "base",
+        "fadein",
+        "forminfo",
+        "oidc",
+        "openid",
+        "signalr",
+        "subsink",
+        "url",
+        "yxxx"
+    ]
 }

@@ -29,7 +29,7 @@ export class RequestGridComponent implements OnInit {
   AActions = Action;
   requests$: Observable<Request[]>;
   loading$: Observable<boolean>;
-  displayedColumns: string[] = ['key', 'user', 'email', 'packageName', 'packageType', 'status', 'statusChangedOn', 'submittedOn', 'actions'];
+  displayedColumns: string[] = ['key', 'user', 'email', 'packageName', 'packageVersion', 'packageType', 'status', 'statusChangedOn', 'submittedOn', 'actions'];
   dataSource: MatTableDataSource<Request> = null;
   RequestStatus = RequestStatus;
   PacksgeTypes = PackageType;

@@ -4,15 +4,14 @@ import { RouterModule } from '@angular/router';
 
 import { HeaderComponent } from './header.component';
 import { MaterialModule } from '../../shared/modules/material.module';
-import { SpinnerComponent } from './spinner.component';
 import { ReduxModule } from '../../shared/store/redux.module';
 import { PipesModule } from '../../shared/pipes/pipes.module';
 import { AuthenticationModule } from '../authentication/authentication.module';
+import { SpinnerModule } from '../../shared/modules/spinner/spinner.module';
 
 @NgModule({
   declarations: [
-    HeaderComponent,
-    SpinnerComponent,
+    HeaderComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +19,8 @@ import { AuthenticationModule } from '../authentication/authentication.module';
     MaterialModule,
     ReduxModule,
     PipesModule,
-    AuthenticationModule
+    AuthenticationModule,
+    SpinnerModule
   ],
   exports: [
     HeaderComponent

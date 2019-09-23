@@ -6,19 +6,19 @@
   </span>
   <span class="toolbar-flex"></span>
   <span>
-    <button mat-raised-button color="primary" (click)="getRequests()" matTooltip="Reload Results"><i
-        class="fas fa-sync"></i> Refresh</button>
+    <button mat-raised-button color="primary" (click)="getRequests()" matTooltip="Reload Results"><i class="fas fa-sync"></i> Refresh</button>
   </span>
   <span class="toolbar-space"></span>
   <span>
-    <button mat-raised-button color="primary" class="action-button" (click)="modalRequest(null, AActions.Add)"
-      matTooltip="Add new packege request"><i class="fas fa-plus"></i> Add</button>
+    <button mat-raised-button color="primary" class="action-button" (click)="modalRequest(null, AActions.Add)" matTooltip="Add new packege request"><i class="fas fa-plus"></i> Add</button>
   </span>
 </mat-toolbar>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="key">
     <th mat-header-cell *matHeaderCellDef> # </th>
-    <td mat-cell *matCellDef="let request"><mat-icon matTooltip="{{request.key}}" svgIcon="error_outline"></mat-icon></td>
+    <td mat-cell *matCellDef="let request">
+      <mat-icon matTooltip="{{request.key}}" svgIcon="error_outline"></mat-icon>
+    </td>
   </ng-container>
   <ng-container matColumnDef="user">
     <th mat-header-cell *matHeaderCellDef> User </th>
@@ -31,6 +31,10 @@
   <ng-container matColumnDef="packageName">
     <th mat-header-cell *matHeaderCellDef> Package Name </th>
     <td mat-cell *matCellDef="let request"> {{request.package.name}} </td>
+  </ng-container>
+  <ng-container matColumnDef="packageVersion">
+    <th mat-header-cell *matHeaderCellDef> Package Version </th>
+    <td mat-cell *matCellDef="let request"> {{request.package.version}} </td>
   </ng-container>
   <ng-container matColumnDef="packageType">
     <th mat-header-cell *matHeaderCellDef> Package Type </th>
@@ -51,13 +55,11 @@
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let request">
-      <button mat-raised-button color="primary" class="action-button" (click)="modalRequest(request, AActions.Delete)"
-        matTooltip="Delete Request">
+      <button mat-raised-button color="primary" class="action-button" (click)="modalRequest(request, AActions.Delete)" matTooltip="Delete Request">
         <i class="fas fa-trash-alt"></i>
       </button>
       &nbsp;
-      <button mat-raised-button color="primary" class="action-button" (click)="modalRequest(request, AActions.Modify)"
-        matTooltip="Modify Request"><i class="fas fa-edit"></i></button>
+      <button mat-raised-button color="primary" class="action-button" (click)="modalRequest(request, AActions.Modify)" matTooltip="Modify Request"><i class="fas fa-edit"></i></button>
     </td>
   </ng-container>
 

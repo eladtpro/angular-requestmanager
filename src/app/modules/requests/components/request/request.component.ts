@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
-import { throwError } from 'rxjs';
+import { throwError, Observable, of } from 'rxjs';
 
 import { Action } from '../../../../shared/model/action';
 import { Request } from '../../model/request';
@@ -12,6 +12,10 @@ import { Validator } from '../../../../shared/core/validator';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationComponent } from '../../../dialogs/confirmation.component';
 import { AuthenticationService } from '../../../../shared/services/authentication.service';
+import { NpmResponse } from '../../model/npm-response';
+import { NpmService } from '../../services/npm.service';
+import { catchError, startWith, debounceTime, switchMap, finalize, tap } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
   selector: 'ms-request',
@@ -23,6 +27,7 @@ export class RequestComponent implements OnInit {
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<RequestComponent>,
     private auth: AuthenticationService,
+    private npm: NpmService,
     @Inject(MAT_DIALOG_DATA) data: { request: Request, action: Action }) {
     this.action = data.action;
     this.request = data.request ? data.request : this.getDefaultRequest();
@@ -30,6 +35,7 @@ export class RequestComponent implements OnInit {
 
   readonly request?: Request;
   readonly action: Action = Action.Add;
+  loading = false;
   post: any;
   requestForm: FormGroup;
   validator: Validator;
@@ -37,14 +43,18 @@ export class RequestComponent implements OnInit {
   AActions = Action;
   PackageTypes = PackageType;
 
+  npmAutocomplete$: Observable<NpmResponse[]> = null;
+
   get user() { return this.requestForm.get('user') as FormControl; }
   get email() { return this.requestForm.get('email') as FormControl; }
   get packageName() { return (this.requestForm.get('package') as FormGroup).get('name') as FormControl; }
+  get packageVersion() { return (this.requestForm.get('package') as FormGroup).get('version') as FormControl; }
   get packageType() { return (this.requestForm.get('package') as FormGroup).get('type') as FormControl; }
   get distribution() { return this.requestForm.get('distribution') as FormControl; }
 
   ngOnInit() {
     this.initializeForm();
+    this.initializeAutocomplete();
   }
 
   initializeForm() {
@@ -53,6 +63,7 @@ export class RequestComponent implements OnInit {
       email: [{ value: this.request.email, disabled: true }, [Validators.required/*, Validators.email*/]],
       package: this.formBuilder.group({
         name: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(128)]],
+        version: [null, []],
         type: [null, Validators.required]
       }),
       distribution: [null]
@@ -60,6 +71,21 @@ export class RequestComponent implements OnInit {
 
     this.requestForm.patchValue(this.request);
     this.validator = new Validator(this.requestForm);
+  }
+
+  initializeAutocomplete(): void {
+    this.npmAutocomplete$ = this.packageName.valueChanges.pipe(
+      // delay emits
+      debounceTime(300),
+      tap(() => this.loading = true),
+      // use switch map so as to cancel previous subscribed events, before creating new once
+      switchMap(value => this.npm.search(value).pipe(
+        finalize(() => this.loading = false))
+      ));
+  }
+
+  packageSelected($event: MatAutocompleteSelectedEvent) {
+    this.packageVersion.setValue($event.option.id);
   }
 
   onSubmit() {
@@ -73,6 +99,7 @@ export class RequestComponent implements OnInit {
         this.close(this.action);
         break;
       case Action.Delete:
+        // TODO: delete throws exception
         this.dialog.open(ConfirmationComponent, {
           data: {
             message: `Are you sure to delete package ${this.request.package.name}?`,
@@ -101,15 +128,16 @@ export class RequestComponent implements OnInit {
 
   private getDefaultRequest(): Request {
     const request = new Request();
-    request.user = this.auth.name,
-      request.email = this.auth.email;
+    request.user = this.auth.name;
+    request.email = this.auth.email;
     request.key = this.newGuid();
     request.package = new Package();
+    request.package.version = 'latest';
     request.package.type = PackageType.npm;
     request.submittedOn = new Date();
     request.statusChangedOn = new Date();
     request.status = RequestStatus.Pending;
-    request.distribution = DistributionType.Broadcust;
+    request.distribution = DistributionType.Broadcast;
     return request;
   }
 
@@ -120,5 +148,4 @@ export class RequestComponent implements OnInit {
       return v.toString(16);
     });
   }
-
 }
