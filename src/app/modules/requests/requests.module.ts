@@ -6,7 +6,6 @@ import { createCustomElement } from '@angular/elements';
 import { RequestGridComponent } from './components/request-grid/request-grid.component';
 import { MaterialModule } from '../../shared/modules/material.module';
 import { ReduxModule } from '../../shared/store/redux.module';
-import { RequestsResolver } from './services/requests.resolver';
 import { RequestComponent } from './components/request/request.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from '../../shared/pipes/pipes.module';
@@ -17,7 +16,7 @@ import { NpmService } from './services/npm.service';
 import { SpinnerModule } from 'src/app/shared/modules/spinner/spinner.module';
 
 const routes: Routes = [
-  { path: '', component: RequestGridComponent, resolve: {resolver: RequestsResolver} },
+  { path: '', component: RequestGridComponent },
   { path: 'new-request', component: RequestComponent },
   { path: 'docs/:type', component: DocumentationComponent },
   { path: 'docs', component: DocumentationComponent }
@@ -42,7 +41,6 @@ const routes: Routes = [
   ],
   providers: [
     NpmService,
-    RequestsResolver
   ],
   entryComponents: [
     ExternalContentComponent
@@ -53,6 +51,5 @@ export class RequestsModule {
 
   ngDoBootstrap() {
     const tileCE = createCustomElement(ExternalContentComponent, { injector: this.injector });
-
   }
 }

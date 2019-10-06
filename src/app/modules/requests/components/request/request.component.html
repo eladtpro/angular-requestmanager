@@ -70,7 +70,7 @@
       <mat-grid-tile [ngSwitch]="action">
         <button mat-raised-button *ngSwitchCase="AActions.Add" color="primary" type="submit" class="button" [disabled]="!requestForm.valid">Submit</button>
         <button mat-raised-button *ngSwitchCase="AActions.Modify" color="primary" type="submit" class="button" [disabled]="!requestForm.valid">Update</button>
-        <button mat-raised-button *ngSwitchCase="AActions.Delete" color="warn" type="submit" class="button" [disabled]="!requestForm.valid">Delete</button>
+        <button mat-raised-button *ngSwitchCase="AActions.Delete" color="warn" type="submit" class="button">Delete</button>
         <span *ngSwitchDefault>N\A</span>
       </mat-grid-tile>
     </mat-grid-list>

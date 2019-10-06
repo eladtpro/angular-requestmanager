@@ -6,7 +6,7 @@ import { VERSION, MatDialogRef, MatDialog, MatSnackBar, MAT_DIALOG_DATA } from '
   templateUrl: './confirmation.component.html',
 })
 export class ConfirmationComponent {
-  message = 'Are you sure?';
+  message = 'Are you sure to delete package selected package from the repository?';
   confirmButtonText = 'Yes';
   cancelButtonText = 'Cancel';
   constructor(

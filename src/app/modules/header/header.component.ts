@@ -10,8 +10,10 @@ import { PackageType } from '../requests/model/package-type';
 import { MatDialog } from '@angular/material';
 import { UserDetailsComponent } from '../authentication/user-details/user-details.component';
 import { AuthenticationService } from '../../shared/services/authentication.service';
-import { ConfigurationService } from '../../shared/services/configuration.service';
 import { SignupComponent } from '../authentication/signup/signup.component';
+import { ActivatedRoute } from '@angular/router';
+import { Configuration } from '../../shared/model/configuration';
+import { ConfigurationService } from '../../shared/services/configuration.service';
 
 @Component({
   selector: 'ms-header',
@@ -21,10 +23,11 @@ import { SignupComponent } from '../authentication/signup/signup.component';
 export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private entityServices: EntityServices,
+    private config: ConfigurationService,
     private notificationService: NotificationService,
     private auth: AuthenticationService,
-    private dialog: MatDialog,
-    private config: ConfigurationService) {
+    private route: ActivatedRoute,
+    private dialog: MatDialog) {
   }
 
   requestService: EntityCollectionService<Request>;
@@ -45,14 +48,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
     this.config.configuration.subscribe(cfg => {
+      // ConfigurationResolver will not dispatch because no routing occur with the header component
+      // THIS WILL NEVER FIRE => this.route.data.subscribe((data: { configuration: Configuration }) => {
       this.auth.initialize(cfg);
       this.requestService = this.entityServices.getEntityCollectionService('Request');
       this.subs.sink = this.requestService.filteredEntities$.subscribe(requests => {
         console.log('HeaderComponent requestService.filteredEntities$ FILTERED', requests);
       });
-
-      this.requestService.count$.subscribe(count => this.requestCount = count);
+      this.subs.sink = this.requestService.count$.subscribe(count => this.requestCount = count);
     });
   }
 

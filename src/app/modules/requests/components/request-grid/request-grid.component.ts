@@ -9,7 +9,6 @@ import { RequestComponent } from '../request/request.component';
 import { Action } from '../../../../shared/model/action';
 import { PackageType } from '../../model/package-type';
 import { RequestStatus } from '../../model/request-status';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ms-request-grid',
@@ -19,7 +18,9 @@ import { ActivatedRoute } from '@angular/router';
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestGridComponent implements OnInit {
-  constructor(private requestService: RequestService, private dialog: MatDialog, private route: ActivatedRoute) {
+  constructor(
+    private requestService: RequestService,
+    private dialog: MatDialog) {
     this.requests$ = this.requestService.filteredEntities$;
     this.requestService.entities$.subscribe(requests => {
       this.dataSource = new MatTableDataSource(requests);
@@ -32,14 +33,11 @@ export class RequestGridComponent implements OnInit {
   displayedColumns: string[] = ['key', 'user', 'email', 'packageName', 'packageVersion', 'packageType', 'status', 'statusChangedOn', 'submittedOn', 'actions'];
   dataSource: MatTableDataSource<Request> = null;
   RequestStatus = RequestStatus;
-  PacksgeTypes = PackageType;
+  PackageTypes = PackageType;
 
   ngOnInit() {
     // TODO: cdk virtual scroll
-    // this.getRequests(); // requests are being loaded trough RequestResolver
-    this.route.data.subscribe((data: { resolver: Request[] }) => {
-      this.dataSource = new MatTableDataSource(data.resolver);
-    });
+    this.getRequests();
   }
 
   applyFilter(filter: string) {
@@ -57,23 +55,23 @@ export class RequestGridComponent implements OnInit {
       closeOnNavigation: true,
       disableClose: false,
       data: { request: request, action: action }
-    }).afterClosed()
-      .subscribe((result: Request) => {
-        if (!result) return;
-        switch (action) {
-          case Action.Add:
-            this.requestService.add(result).subscribe(req => this.getRequests());
-            break;
-          case Action.Modify:
-            this.requestService.update(result).subscribe(req => this.getRequests());
-            break;
-          case Action.Delete:
-            this.requestService.delete(result.key.toString()).subscribe(req => this.getRequests());
-            break;
-          default:
-            throwError('Action required');
-            break;
-        }
-      });
+    }).afterClosed().subscribe((result: Request) => {
+      if (!result) return;
+      switch (action) {
+        case Action.Add:
+          this.requestService.add(result).subscribe(req => this.getRequests());
+          break;
+        case Action.Modify:
+          this.requestService.update(result).subscribe(req => this.getRequests());
+          break;
+        case Action.Delete:
+          this.requestService.delete(result.key.toString()).subscribe(req => this.getRequests());
+          break;
+        default:
+          throwError('Action required');
+          break;
+      }
+    }
+    );
   }
 }

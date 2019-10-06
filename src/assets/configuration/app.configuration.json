@@ -1,6 +1,6 @@
 {
   "enableNotifications": false,
-  "webApiBaseUrl": "http://localhost:27527/api",
+  "webApiBaseUrl": "https://requestsdemoapi-test.azurewebsites.net/api",
   "npmRepositoryUrl": "https://api.npms.io/v2/search",
   "signalrBaseUrl": "http://localhost:8080/requestmanager/api/",
   "oidcConfig": {
