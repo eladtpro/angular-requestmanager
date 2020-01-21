@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MaterialModule } from '../../shared/modules/material.module';
+import { MaterialModule } from '../../shared/modules/material/material.module';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { SignupComponent } from './signup/signup.component';
 import { AuthCallbackComponent } from './auth-callback/auth-callback.component';
 import { PipesModule } from '../../shared/pipes/pipes.module';
+import { TradeMarkModule } from 'src/app/shared/modules/trade-mark/trade-mark.module';
 
 
 const routes: Routes = [
@@ -25,7 +26,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     MaterialModule,
-    PipesModule
+    PipesModule,
+    TradeMarkModule
   ],
   exports: [
   ],

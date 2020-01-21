@@ -8,7 +8,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './signup.component.html'
 })
 export class SignupComponent {
-
   constructor(@Inject(MAT_DIALOG_DATA) data: any, private auth: AuthenticationService, private storage: StorageService) {
     if (data)
       this.redirectUrl = data.redirectUrl;

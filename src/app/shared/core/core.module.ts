@@ -9,7 +9,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { ConfigurationService } from '../services/configuration.service';
 import { AuthenticationInterceptor } from '../services/authentication.interceptor';
 import { environment } from '../../../environments/environment.prod';
-import { SpinnerInterceptor } from '../modules/spinner/spinner.interceptor';
+import { SpinnerInterceptor } from '../modules/spinner/services/spinner.interceptor';
 
 export function initConfiguration(config: ConfigurationService) {
   if (!environment.enableTracing) {

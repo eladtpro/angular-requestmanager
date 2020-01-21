@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { createCustomElement } from '@angular/elements';
 
 import { RequestGridComponent } from './components/request-grid/request-grid.component';
-import { MaterialModule } from '../../shared/modules/material.module';
+import { MaterialModule } from '../../shared/modules/material/material.module';
 import { ReduxModule } from '../../shared/store/redux.module';
 import { RequestComponent } from './components/request/request.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,12 +14,13 @@ import { DocumentationComponent } from './components/documentation/documentation
 import { ExternalContentComponent } from './components/external-content/external-content.component';
 import { NpmService } from './services/npm.service';
 import { SpinnerModule } from 'src/app/shared/modules/spinner/spinner.module';
+import { Path } from 'src/app/shared/model/path';
 
 const routes: Routes = [
   { path: '', component: RequestGridComponent },
-  { path: 'new-request', component: RequestComponent },
-  { path: 'docs/:type', component: DocumentationComponent },
-  { path: 'docs', component: DocumentationComponent }
+  { path: Path.NewRequest, component: RequestComponent },
+  { path: `${Path.Docs}/:type`, component: DocumentationComponent },
+  { path: Path.Docs, component: DocumentationComponent }
 ];
 
 @NgModule({

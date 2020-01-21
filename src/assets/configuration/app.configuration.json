@@ -11,5 +11,10 @@
     "strictDiscoveryDocumentValidation": false,
     "clearHashAfterLogin": false
   },
+  "levenshtein": {
+    "shortWord": 5,
+    "shortDistance": 3,
+    "longDistance": 5
+  },
   "discoveryDocumentUrl": "https://login.microsoftonline.com/tfp/b2cpm.onmicrosoft.com/B2C_1_basic-authentication/v2.0/.well-known/openid-configuration"
 }

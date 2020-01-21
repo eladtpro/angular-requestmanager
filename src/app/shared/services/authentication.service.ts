@@ -1,24 +1,31 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { SubSink } from 'subsink';
 import { OAuthService, OAuthEvent, OAuthSuccessEvent } from 'angular-oauth2-oidc';
 import { Configuration } from '../model/configuration';
 import { StorageService } from '../store/storage.service';
-import { Router, NavigationEnd, RouterStateSnapshot } from '@angular/router';
+import { Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { ConfigurationService } from './configuration.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService implements OnDestroy {
   constructor(
+    private router: Router,
     private oauth: OAuthService,
     private storage: StorageService,
-    private router: Router) { }
-
-  // TODO: add HostLitener to 'Enter' key event
-  private subs = new SubSink();
-  initialize(cfg: Configuration) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd)
-        this.storage.set(StorageService.Keys.LAST_URL_KEY, this.router.routerState.snapshot.url);
+    private config: ConfigurationService) {
+    this.config.configuration.subscribe(cfg => {
+      // ConfigurationResolver will not dispatch because no routing occur with the header component
+      // THIS WILL NEVER FIRE => this.route.data.subscribe((data: { configuration: Configuration }) => {
+      this.initialize(cfg);
     });
+  }
+
+  // TODO: add HostListener to 'Enter' key event
+  private subs = new SubSink();
+  authentication: Subject<OAuthEvent> = new Subject<OAuthEvent>();
+  initialize(cfg: Configuration) {
 
     this.oauth.configure(cfg.oidcConfig);
     this.oauth.setupAutomaticSilentRefresh();
@@ -26,36 +33,38 @@ export class AuthenticationService implements OnDestroy {
       .then(result =>
         // This method just tries to parse the token(s) within the url when
         // the auth-server redirects the user back to the web-app
-        // It dosn't send the user the the login page
+        // It doesn't send the user the the login page
         this.oauth.tryLogin().catch(err => {
           this.storage.set('login-error', err);
           console.error(err);
         }));
-    this.subs.sink = this.oauth.events.subscribe((event: OAuthEvent) => {
-      console.log(new Date(), event);
-      // TODO: show notifications
-      switch (event.type) {
-        case 'discovery_document_loaded':
-          const success = event as OAuthSuccessEvent;
-          if (success.info) {
-            const loggedOut = this.storage.get<boolean>('logged-out', true);
-            if (loggedOut)
-              this.router.navigateByUrl('/home');
-          }
-          break;
-        case 'token_received':
-          let redirectUrl: string;
-          if (this.storage.contains(StorageService.Keys.REDIRECT_URL_KEY))
-            redirectUrl = this.storage.get<string>(StorageService.Keys.REDIRECT_URL_KEY, true);
-          this.router.navigateByUrl(redirectUrl || '/home');
-          break;
-        case 'logout':
-          this.storage.set('logged-out', true);
-          break;
-        default:
-          break;
-      }
-    });
+    this.subs.sink = this.oauth.events
+      .pipe(tap((event: OAuthEvent) => this.authentication.next(event)))
+      .subscribe((event: OAuthEvent) => {
+        console.log(`[${event.type}]  ${new Date()}`, event);
+        // TODO: show notifications
+        switch (event.type) {
+          case 'discovery_document_loaded':
+            const success = event as OAuthSuccessEvent;
+            if (success.info) {
+              const loggedOut = this.storage.get<boolean>('logged-out', true);
+              if (loggedOut)
+                this.router.navigateByUrl('/home');
+            }
+            break;
+          case 'token_received':
+            let redirectUrl: string;
+            if (this.storage.contains(StorageService.Keys.REDIRECT_URL_KEY))
+              redirectUrl = this.storage.get<string>(StorageService.Keys.REDIRECT_URL_KEY, true);
+            this.router.navigateByUrl(redirectUrl || '/home');
+            break;
+          case 'logout':
+            this.storage.set('logged-out', true);
+            break;
+          default:
+            break;
+        }
+      });
   }
 
   public get name(): string {

@@ -16,7 +16,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
       request = request.clone({
         // setHeaders: { Authorization: `OpenIdConnect ${this.auth.token}` },
         setHeaders: { Authorization: `Bearer ${this.auth.token}` },
-        // withCredentials: true
+        //  withCredentials: true
       });
 
     return next.handle(request);

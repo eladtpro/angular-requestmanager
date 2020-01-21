@@ -1,22 +1,25 @@
-<mat-card>
+<mat-progress-bar *ngIf="!error" mode="indeterminate"></mat-progress-bar>
+<mat-card class="auth-card">
   <mat-card-header>
-    <div mat-card-avatar>
-      <mat-icon matTooltip="Please login" svgIcon="error_outline"></mat-icon>
-    </div>
-    <mat-card-title>{{ type | title }}</mat-card-title>
-    <mat-card-subtitle>{{ error | title }}</mat-card-subtitle>
+    <div mat-card-avatar><mat-icon matTooltip="Details" svgIcon="error_outline"></mat-icon></div>
+    <mat-card-title><ms-trade-mark></ms-trade-mark> {{ type | title }}</mat-card-title>
+    <mat-card-subtitle>Authenticating... {{ message | title }}</mat-card-subtitle>
   </mat-card-header>
-  <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+  <img mat-card-image class="image" src="../../../../assets/images/security-lock.png" alt="Secured">
   <mat-card-content>
-    <!-- <mat-icon matTooltip="Add Account" svgIcon="account_circle"></mat-icon> -->
-    <ul>
-      <li *ngFor="let errorDetail of errorDetails">{{ errorDetail | decode }}.</li>
-    </ul>
-    <p>State: {{ state }}</p>
-    <p>Reason: {{ reason }}</p>
-    <p>Nonce: {{ nonce }}</p>
+    <div>
+      <ul>
+        <li *ngFor="let errorDetail of errorDetails">{{ errorDetail | decode }}.</li>
+      </ul>
+    </div>
+    <div>
+      <p>State: {{ state }}</p>
+      <p>Reason: {{ reason }}</p>
+      <p>Nonce: {{ nonce }}</p>
+    </div>
   </mat-card-content>
-  <mat-card-actions>
-    <button [routerLink]="['/home']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Try Again</button>
+  <mat-card-actions align="end">
+    <button mat-button [routerLink]="['/home']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Home</button>
+    <button mat-button (click)="login()" disabled>Login</button>
   </mat-card-actions>
 </mat-card>

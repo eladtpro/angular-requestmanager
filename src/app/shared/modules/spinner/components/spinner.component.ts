@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { SubSink } from 'subsink';
-import { SpinnerService } from './spinner.service';
+import { SpinnerService } from '../services/spinner.service';
 
 const LOADING_IMG = '../../../../assets/images/colorful_loader.gif';
 const IDLE_IMG = '../../../../assets/images/azurelogo-1.png';

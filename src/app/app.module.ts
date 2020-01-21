@@ -7,6 +7,8 @@ import { HeaderModule } from './modules/header/header.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './shared/core/core.module';
 import { HelpComponent } from './modules/help/help.component';
+import { NotFoundComponent } from './modules/not-found/not-found.component';
+import { PipesModule } from './shared/pipes/pipes.module';
 
 // TODO: handle github security alerts:
 // https://github.com/eladtpro/requestmanager-angular/network/alerts
@@ -15,16 +17,18 @@ import { HelpComponent } from './modules/help/help.component';
   declarations: [
     AppComponent,
     HelpComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule.forRoot(),
     AppRoutingModule,
-    HeaderModule
+    HeaderModule,
+    PipesModule
   ],
   providers: [
   ],
-   bootstrap: [AppComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

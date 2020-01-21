@@ -11,8 +11,8 @@ import { MatDialog } from '@angular/material';
 import { UserDetailsComponent } from '../authentication/user-details/user-details.component';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { SignupComponent } from '../authentication/signup/signup.component';
-import { ActivatedRoute } from '@angular/router';
-import { Configuration } from '../../shared/model/configuration';
+import { Router, NavigationEnd } from '@angular/router';
+import { StorageService } from '../../shared/store/storage.service';
 import { ConfigurationService } from '../../shared/services/configuration.service';
 
 @Component({
@@ -26,7 +26,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private config: ConfigurationService,
     private notificationService: NotificationService,
     private auth: AuthenticationService,
-    private route: ActivatedRoute,
+    private storage: StorageService,
+    private router: Router,
     private dialog: MatDialog) {
   }
 
@@ -48,16 +49,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.config.configuration.subscribe(cfg => {
       // ConfigurationResolver will not dispatch because no routing occur with the header component
       // THIS WILL NEVER FIRE => this.route.data.subscribe((data: { configuration: Configuration }) => {
-      this.auth.initialize(cfg);
-      this.requestService = this.entityServices.getEntityCollectionService('Request');
-      this.subs.sink = this.requestService.filteredEntities$.subscribe(requests => {
-        console.log('HeaderComponent requestService.filteredEntities$ FILTERED', requests);
+      this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd)
+          this.storage.set(StorageService.Keys.LAST_URL_KEY, this.router.routerState.snapshot.url);
       });
-      this.subs.sink = this.requestService.count$.subscribe(count => this.requestCount = count);
+    });
+    this.auth.authentication.subscribe(event => {
+      if (event.type === 'token_received') {
+        this.requestService = this.entityServices.getEntityCollectionService('Request');
+        this.subs.sink = this.requestService.filteredEntities$.subscribe(requests => {
+          console.log('HeaderComponent requestService.filteredEntities$ FILTERED', requests);
+        });
+        this.subs.sink = this.requestService.count$.subscribe(count => this.requestCount = count);
+      }
     });
   }
 

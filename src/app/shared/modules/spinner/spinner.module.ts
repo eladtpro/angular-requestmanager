@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MaterialModule } from '../material.module';
-import { SpinnerComponent } from './spinner.component';
+import { MaterialModule } from '../material/material.module';
+import { SpinnerComponent } from './components/spinner.component';
 
 @NgModule({
   declarations: [
