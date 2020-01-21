@@ -34,10 +34,11 @@ speed-measure-plugin.json
 /connect.lock
 /coverage
 /libpeerconnection.log
+/typings
 npm-debug.log
 yarn-error.log
 testem.log
-/typings
+azure-pipelines.yml
 
 # System Files
 .DS_Store
@@ -45,3 +46,4 @@ Thumbs.db
 
 # Configuration
 app.configuration*json
+proxy.conf.json
