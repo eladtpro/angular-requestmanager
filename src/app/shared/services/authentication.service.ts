@@ -44,6 +44,9 @@ export class AuthenticationService implements OnDestroy {
         console.log(`[${event.type}]  ${new Date()}`, event);
         // TODO: show notifications
         switch (event.type) {
+          case 'discovery_document_load_error':
+            this.logout();
+            break;
           case 'discovery_document_loaded':
             const success = event as OAuthSuccessEvent;
             if (success.info) {
