@@ -45,5 +45,5 @@ azure-pipelines.yml
 Thumbs.db
 
 # Configuration
-app.configuration*json
 proxy.conf.json
+/src/assets/configuration/**
