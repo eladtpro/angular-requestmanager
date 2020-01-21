@@ -5,12 +5,18 @@ import { RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { CommonModule } from '@angular/common';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { EntityDataModule } from '@ngrx/data';
 
+import { entityConfig } from '../store/entity-metadata';
 import { ConfigurationService } from '../services/configuration.service';
 import { AuthenticationInterceptor } from '../services/authentication.interceptor';
 import { environment } from '../../../environments/environment.prod';
 import { SpinnerInterceptor } from '../modules/spinner/services/spinner.interceptor';
 
+const RUNTIME_CHECKS = false;
 export function initConfiguration(config: ConfigurationService) {
   if (!environment.enableTracing) {
     console.warn(`console.logging TERMINATED: environment.enableTracing=${environment.enableTracing}`);
@@ -25,7 +31,18 @@ export function initConfiguration(config: ConfigurationService) {
     CommonModule,
     HttpClientModule,
     RouterModule.forRoot([], { enableTracing: environment.enableTracing }),
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(),
+    StoreModule.forRoot({}, {
+      runtimeChecks: {
+        strictStateImmutability: RUNTIME_CHECKS,
+        strictActionImmutability: RUNTIME_CHECKS,
+        strictStateSerializability: RUNTIME_CHECKS,
+        strictActionSerializability: RUNTIME_CHECKS,
+      }
+    }),
+    EffectsModule.forRoot([]),
+    EntityDataModule.forRoot(entityConfig),
+    environment.production ? [] : StoreDevtoolsModule.instrument()
   ],
   providers: [
   ]
