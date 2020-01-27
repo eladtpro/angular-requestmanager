@@ -15,7 +15,7 @@
   <span>
     <button mat-button [routerLink]="['requests']" routerLinkActive="mat-accent" [routerLinkActiveOptions]="{exact:true}">
       <ng-container *ngIf="requestCount > 0">
-        <span matBadge="{{ requestCount }}"  matTooltip="{{ requestCount }} pending requests" matBadgeOverlap="false">Requests</span>
+        <span matBadge="{{ requestCount }}" matTooltip="{{ requestCount }} pending requests" matBadgeOverlap="false">Requests</span>
       </ng-container>
       <ng-container *ngIf="requestCount <= 0">
         Requests
@@ -23,12 +23,17 @@
     </button>
   </span>
   <span>
-    <button mat-button [matMenuTriggerFor]="menu">Documentation</button>
+    <button #btnDoc mat-button [matMenuTriggerFor]="menu">{{ btnDocCaption | html }}</button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item [routerLink]="['requests/docs']" routerLinkActive="mat-accent" [routerLinkActiveOptions]="{exact:true}">Active</button>
-      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.npm]" routerLinkActive="active">Npm (Node)</button>
-      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.nuget]" routerLinkActive="active">Nuget</button>
-      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.vs_extension]" routerLinkActive="active">Extension</button>
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.npm]" routerLinkActive="active" (click)="menuChanged($event)">
+        <div class="box"><img src="../../../assets/images/npm_icon.png" /><span>NPM</span></div>
+      </button>
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.nuget]" routerLinkActive="active" (click)="menuChanged($event)">
+        <div class="box"><img src="../../../assets/images/nuget_icon.png" /><span>Nuget</span></div>
+      </button>
+      <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.vs_extension]" routerLinkActive="active" (click)="menuChanged($event)">
+        <div class="box"><img src="../../../assets/images/vscode_icon.png" /><span>Extension</span></div>
+      </button>
     </mat-menu>
   </span>
   <span>
@@ -36,11 +41,6 @@
   </span>
   <!-- This fills the remaining space of the current row -->
   <span class="fill-remaining-space">
-    <ng-template #notificationAlert [ngIf]="this.notification">
-      <div class="alert alert-success fadein">
-        <strong>{{ notification.Title }}</strong> {{ notification.Content }}
-      </div>
-    </ng-template>
   </span>
   <span>
     <form>

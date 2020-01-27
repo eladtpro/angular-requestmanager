@@ -1,16 +1,17 @@
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@aspnet/signalr';
+import { Injectable } from '@angular/core';
 import { Notification } from '../model/notification';
 import { ConfigurationService } from './configuration.service';
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 // TODO: use webWorker
-// TODO: create notification component as inline or popup
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  constructor(private config: ConfigurationService) {
+  constructor(
+    private config: ConfigurationService) {
     this.config.configuration.subscribe(cfg => {
+      this.enableNotifications = cfg.enableNotifications;
       if (!cfg.enableNotifications)
         return;
 
@@ -19,9 +20,31 @@ export class NotificationService {
     });
   }
 
-  public notifier: Subject<Notification> = new Subject<Notification>();
   private notificationUrl: string;
   private connection: HubConnection;
+  private enableNotifications: boolean;
+  private notifier: Subject<Notification> = new Subject<Notification>();
+
+
+  subscribe(next?: (value: Notification) => void, error?: (error: any) => void, complete?: () => void): Subscription {
+    return this.notifier.subscribe(next, error, complete);
+  }
+
+  notify(notification: Notification) {
+    if (!notification) return;
+
+    this.notifier.next(notification);
+    this.send(notification);
+  }
+
+  private send(notification: Notification): Promise<void> {
+    if (!this.enableNotifications) {
+      console.warn('notifications disabled', notification);
+      return;
+    }
+
+    return this.connection.send('Notify', notification);
+  }
 
   async start() {
     // return this.notifier;
@@ -44,8 +67,8 @@ export class NotificationService {
       .then(
         (resolved) => {
           this.connection.on('notify', notification => {
-            console.log(notification);
-            this.notifier.next(notification);
+            console.log('[signalr MESSAGE]', notification);
+            this.notify(notification);
           });
           console.log('[signalr CONNECTED]', resolved, this.notificationUrl, this.connection);
         },
@@ -54,16 +77,5 @@ export class NotificationService {
         })
       .catch(
         e => console.log('[signalr FAILED]', e, JSON.stringify(e, null, 4), this.notificationUrl, this.connection));
-
-
-    // return this.notifier;
   }
-
-  public send(notification: Notification): Promise<void> {
-    return this.connection.send('Notify', notification);
-  }
-
-  // public get(): Observable<Notification>{
-  //   return Observable.create();
-  // }
 }

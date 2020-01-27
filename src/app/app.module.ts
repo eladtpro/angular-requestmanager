@@ -10,9 +10,6 @@ import { HelpComponent } from './modules/help/help.component';
 import { NotFoundComponent } from './modules/not-found/not-found.component';
 import { PipesModule } from './shared/pipes/pipes.module';
 
-// TODO: handle github security alerts:
-// https://github.com/eladtpro/requestmanager-angular/network/alerts
-
 @NgModule({
   declarations: [
     AppComponent,

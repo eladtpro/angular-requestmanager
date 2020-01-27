@@ -23,6 +23,12 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard]
   },
   {
+    path: '404', resolve: {
+      path: PathResolver
+    },
+    component: NotFoundComponent
+  },
+  {
     path: '**', resolve: {
       path: PathResolver
     },

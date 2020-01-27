@@ -2,6 +2,7 @@ import { NgModule, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { createCustomElement } from '@angular/elements';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 import { RequestGridComponent } from './components/request-grid/request-grid.component';
 import { MaterialModule } from '../../shared/modules/material/material.module';
@@ -38,6 +39,7 @@ const routes: Routes = [
     PipesModule,
     DialogsModule,
     SpinnerModule,
+    ScrollingModule,
     RouterModule.forChild(routes)
   ],
   providers: [

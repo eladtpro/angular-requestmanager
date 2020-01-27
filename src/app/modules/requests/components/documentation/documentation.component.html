@@ -1,2 +1,3 @@
-<iframe [src]='url'></iframe>
-{{ url }}
+<iframe [src]='sanitizedUrl' frameborder-="0" *ngIf="sanitizedUrl"></iframe>
+<p [innerHTML]="content"></p>
+<!-- <ms-external-content [src]='url'></ms-external-content> -->

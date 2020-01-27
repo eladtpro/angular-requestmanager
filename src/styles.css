@@ -12,3 +12,7 @@ body {
   /* background: #3b3b3b !important; */
   /* color: white !important; */
 }
+
+.mat-snack-bar-container {
+  max-width: 80vw !important;
+}

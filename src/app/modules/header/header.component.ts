@@ -1,19 +1,16 @@
-import { Component, ViewChild, Renderer2, ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { share, tap, map, takeUntil } from 'rxjs/operators';
-import { Subject, Observable } from 'rxjs';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SubSink } from 'subsink';
-
-import { NotificationService } from '../../shared/services/notification.service';
-import { Notification } from '../../shared/model/notification';
 import { EntityServices, EntityCollectionService, MergeStrategy } from '@ngrx/data';
 import { PackageType } from '../requests/model/package-type';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatButton, MatSnackBar } from '@angular/material';
+
 import { UserDetailsComponent } from '../authentication/user-details/user-details.component';
 import { AuthenticationService } from '../../shared/services/authentication.service';
 import { SignupComponent } from '../authentication/signup/signup.component';
 import { Router, NavigationEnd } from '@angular/router';
 import { StorageService } from '../../shared/store/storage.service';
 import { ConfigurationService } from '../../shared/services/configuration.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'ms-header',
@@ -24,19 +21,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private entityServices: EntityServices,
     private config: ConfigurationService,
-    private notificationService: NotificationService,
     private auth: AuthenticationService,
     private storage: StorageService,
     private router: Router,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private notifier: NotificationService,
+    private snackBar: MatSnackBar) {
+    this.notifier.subscribe(notification => this.snackBar.open(notification.content, notification.title, { duration: 5000 }));
   }
 
+  // ** read ** - True to read a different token from the queried elements.
+  // ** static ** - True to resolve query results before change detection runs
+  @ViewChild('btnDoc', { static: true }) btnDoc: MatButton;
+
+  btnDocCaption = 'Documentation';
   requestService: EntityCollectionService<Request>;
-  connectionCount: Observable<string>;
   private subs = new SubSink();
-  // @ViewChild('notificationAlert') notificationAlert: TemplateRef<Notification>;
-  private notifier: Subject<Notification>;
-  notification: Notification;
   PackageTypes = PackageType;
   requestCount = 0;
 
@@ -70,25 +70,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs.unsubscribe();
-    this.notifier.complete();
   }
 
-  startNotifications() {
-    this.notificationService.start();
-    this.notifier = this.notificationService.notifier;
-    this.subs.sink = this.notifier
-      .pipe(takeUntil(this.notifier))
-      .subscribe(notification => {
-        this.notification = notification;
-      });
+  menuChanged(event) {
+    try {
+      // const target = event.target || event.srcElement || event.currentTarget;
+      console.warn(event.target.innerHTML);
+      this.btnDocCaption = event.target.innerHTML;
+    } catch { }
   }
-
-  // notify(msg: string, title?: string) {
-  //   const not = new Notification();
-  //   not.Content = msg;
-  //   not.Title = title;
-  //   this.notification = not;
-  // }
 
   loadRequests(event) {
     this.subs.sink = this.requestService.getWithQuery({ 'pattern': event.target.value }, { mergeStrategy: MergeStrategy.OverwriteChanges })
@@ -108,20 +98,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.dialog.open(SignupComponent, {
+    const dialogRef = this.dialog.open(SignupComponent, {
       closeOnNavigation: true,
       disableClose: false
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
-
-  // TODO: add doc documents pages
-
-  // reloadData(){
-  //   this.requestService.reInitialize(this.dummy.Requests()).subscribe(
-  //     () => {
-  //       const currentQuery = this.requestService.requestLoader.getValue();
-  //       this.requestService.requestLoader.next(currentQuery);
-  //     }
-  //   );
-  // }
 }

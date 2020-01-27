@@ -5,7 +5,7 @@
     <mat-card-title><ms-trade-mark></ms-trade-mark> {{ type | title }}</mat-card-title>
     <mat-card-subtitle>Authenticating... {{ message | title }}</mat-card-subtitle>
   </mat-card-header>
-  <img mat-card-image class="image" src="../../../../assets/images/security-lock.png" alt="Secured">
+  <img mat-card-image class="image" src="../../../../assets/images/secure_connection.jpg" alt="Secured">
   <mat-card-content>
     <div>
       <ul>
@@ -19,7 +19,7 @@
     </div>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-button [routerLink]="['/home']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Home</button>
-    <button mat-button (click)="login()" disabled>Login</button>
+    <button mat-stroked-button [routerLink]="['/home']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">Home</button>
+    <button mat-stroked-button (click)="login()" disabled>Login</button>
   </mat-card-actions>
 </mat-card>

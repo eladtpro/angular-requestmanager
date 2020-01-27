@@ -9,7 +9,7 @@ export class AlertComponent {
   message = '';
   cancelButtonText = 'Cancel';
   constructor(
-    @Inject(MAT_DIALOG_DATA) data: any,
+    @Inject(MAT_DIALOG_DATA) data: { message?, buttonText?},
     private dialogRef: MatDialogRef<AlertComponent>) {
     if (data) {
       this.message = data.message || this.message;
@@ -22,5 +22,4 @@ export class AlertComponent {
   onConfirmClick(): void {
     this.dialogRef.close(true);
   }
-
 }

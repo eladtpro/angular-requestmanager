@@ -12,7 +12,6 @@
     </p>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
+    <button mat-button color="accent" [routerLink]="['/requests']" routerLinkActive="mat-accent" [routerLinkActiveOptions]="{exact:true}">Continue >></button>
   </mat-card-actions>
 </mat-card>

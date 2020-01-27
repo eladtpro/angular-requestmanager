@@ -1,12 +1,15 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SubSink } from 'subsink';
-import { OAuthService, OAuthEvent, OAuthSuccessEvent } from 'angular-oauth2-oidc';
+import { OAuthService, OAuthEvent, OAuthSuccessEvent, OAuthErrorEvent } from 'angular-oauth2-oidc';
 import { Configuration } from '../model/configuration';
 import { StorageService } from '../store/storage.service';
 import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ConfigurationService } from './configuration.service';
+import { NotificationService } from './notification.service';
+import { Notification } from '../model/notification';
+import { TitleCamelCasePipe } from '../pipes/title-camel-case.pipe';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService implements OnDestroy {
@@ -14,7 +17,8 @@ export class AuthenticationService implements OnDestroy {
     private router: Router,
     private oauth: OAuthService,
     private storage: StorageService,
-    private config: ConfigurationService) {
+    private config: ConfigurationService,
+    private notifier: NotificationService) {
     this.config.configuration.subscribe(cfg => {
       // ConfigurationResolver will not dispatch because no routing occur with the header component
       // THIS WILL NEVER FIRE => this.route.data.subscribe((data: { configuration: Configuration }) => {
@@ -22,8 +26,8 @@ export class AuthenticationService implements OnDestroy {
     });
   }
 
-  // TODO: add HostListener to 'Enter' key event
   private subs = new SubSink();
+  private title: TitleCamelCasePipe = new TitleCamelCasePipe();
   authentication: Subject<OAuthEvent> = new Subject<OAuthEvent>();
   initialize(cfg: Configuration) {
 
@@ -41,8 +45,7 @@ export class AuthenticationService implements OnDestroy {
     this.subs.sink = this.oauth.events
       .pipe(tap((event: OAuthEvent) => this.authentication.next(event)))
       .subscribe((event: OAuthEvent) => {
-        console.log(`[${event.type}]  ${new Date()}`, event);
-        // TODO: show notifications
+        this.notify(event);
         switch (event.type) {
           case 'discovery_document_load_error':
             this.logout();
@@ -70,7 +73,24 @@ export class AuthenticationService implements OnDestroy {
       });
   }
 
-  public get name(): string {
+  notify(event: OAuthEvent) {
+    const caption = this.title.transform(event.type);
+    let not: Notification;
+    // const type = event.constructor.name;
+
+    if (event instanceof OAuthErrorEvent)
+      not = new Notification((event as OAuthErrorEvent).reason['message'], caption);
+    if (event instanceof OAuthSuccessEvent &&
+      (('token_received' === event.type) ||
+      ('discovery_document_loaded' === event.type && (event as OAuthSuccessEvent).info)))
+      not = new Notification('OAuth Success Event', caption);
+
+    console.log(`[${caption}]  ${new Date().toTimeString()}`, event);
+    if (not)
+      this.notifier.notify(not);
+  }
+
+  get name(): string {
     const claims = this.oauth.getIdentityClaims();
     if (!claims)
       return null;
@@ -78,7 +98,7 @@ export class AuthenticationService implements OnDestroy {
     return claims['name'];
   }
 
-  public get email(): string {
+  get email(): string {
     const claims = this.oauth.getIdentityClaims();
     if (!claims)
       return null;
@@ -87,7 +107,7 @@ export class AuthenticationService implements OnDestroy {
     return claims['emails'];
   }
 
-  public get newUser(): string {
+  get newUser(): string {
     const claims = this.oauth.getIdentityClaims();
     if (!claims)
       return null;
@@ -95,17 +115,17 @@ export class AuthenticationService implements OnDestroy {
     return claims['newUser'];
   }
 
-  public get authenticated(): boolean {
+  get authenticated(): boolean {
     return (this.oauth.hasValidIdToken() && this.oauth.hasValidAccessToken());
   }
 
   // Sample: Get the access token
-  public get token() {
+  get token() {
     return this.oauth.getAccessToken();
   }
 
   // Sample: Get the access token expiration date (in date format)
-  public get tokenExpiration(): Date {
+  get tokenExpiration(): Date {
     return new Date(this.oauth.getAccessTokenExpiration());
   }
 
