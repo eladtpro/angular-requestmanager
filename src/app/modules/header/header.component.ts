@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SubSink } from 'subsink';
 import { EntityServices, EntityCollectionService, MergeStrategy } from '@ngrx/data';
 import { PackageType } from '../requests/model/package-type';
-import { MatDialog, MatButton, MatSnackBar } from '@angular/material';
+import { MatDialog, MatButton, MatSnackBar, MatMenu } from '@angular/material';
 
 import { UserDetailsComponent } from '../authentication/user-details/user-details.component';
 import { AuthenticationService } from '../../shared/services/authentication.service';
@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // ** read ** - True to read a different token from the queried elements.
   // ** static ** - True to resolve query results before change detection runs
   @ViewChild('btnDoc', { static: true }) btnDoc: MatButton;
+  @ViewChild('menu', { static: true }) menu: MatMenu;
 
   btnDocCaption = 'Documentation';
   requestService: EntityCollectionService<Request>;
@@ -75,8 +76,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menuChanged(event) {
     try {
       // const target = event.target || event.srcElement || event.currentTarget;
-      console.warn(event.target.innerHTML);
-      this.btnDocCaption = event.target.innerHTML;
+      console.warn(event.target.parentElement.outerHTML);
+      // this.btnDoc.html
+      this.btnDocCaption = event.target.parentElement.outerHTML;
     } catch { }
   }
 
@@ -106,5 +108,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  // TODO: unremark
+  menuOpened() {
+    // if (!this.auth.authenticated) {
+    //   this.menu.closed.emit();
+    //   this.menu.resetActiveItem();
+    // }
   }
 }

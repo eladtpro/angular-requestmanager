@@ -23,16 +23,16 @@
     </button>
   </span>
   <span>
-    <button #btnDoc mat-button [matMenuTriggerFor]="menu">{{ btnDocCaption | html }}</button>
+    <button #btnDoc mat-button [matMenuTriggerFor]="menu" [routerLink]="['requests/docs']" routerLinkActive="mat-accent" (menuOpened)="menuOpened()" [innerHTML]="btnDocCaption"></button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.npm]" routerLinkActive="active" (click)="menuChanged($event)">
-        <div class="box"><img src="../../../assets/images/npm_icon.png" /><span>NPM</span></div>
+        <div class="box"><img src="../../../assets/images/npm_icon.png" width="24px" /><span> NPM</span></div>
       </button>
       <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.nuget]" routerLinkActive="active" (click)="menuChanged($event)">
-        <div class="box"><img src="../../../assets/images/nuget_icon.png" /><span>Nuget</span></div>
+        <div class="box"><img src="../../../assets/images/nuget_icon.png" width="24px" /><span> Nuget</span></div>
       </button>
       <button mat-menu-item [routerLink]="['requests/docs', PackageTypes.vs_extension]" routerLinkActive="active" (click)="menuChanged($event)">
-        <div class="box"><img src="../../../assets/images/vscode_icon.png" /><span>Extension</span></div>
+        <div class="box"><img src="../../../assets/images/vscode_icon.png"  width="24px" /><span> Extension</span></div>
       </button>
     </mat-menu>
   </span>
